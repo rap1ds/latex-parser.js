@@ -32,7 +32,7 @@ TextCharacters
   = chars:TextCharacter+ { return chars.join(""); }
 
 TextCharacter
-  = !("\\") char_:SourceCharacter { return char_; }
+  = !("\\" / "%") char_:SourceCharacter { return char_; }
   / "\\LaTeX\\"
   / "\\\\"
   

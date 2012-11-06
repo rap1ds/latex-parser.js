@@ -315,6 +315,17 @@ module.exports = (function(){
             matchFailed("\"\\\\\"");
           }
         }
+        if (result0 === null) {
+          if (input.charCodeAt(pos) === 37) {
+            result0 = "%";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"%\"");
+            }
+          }
+        }
         reportFailures--;
         if (result0 === null) {
           result0 = "";
