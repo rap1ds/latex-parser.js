@@ -1,0 +1,13 @@
+{
+    "name" : "latex-parser.js",
+    "version" : "0.0.1",
+    "description" : "JavaScript Latex Parser",
+    "author": "Mikko Koski @rap1ds",
+    "homepage": "http://github.com/rap1ds/latex-parser.js",
+    "repository" : {
+        "type" : "git",
+        "url" : "http://github.com/rap1ds/latex-parser.js.git"
+    },
+    "main": "./latex-parser.js"
+}
+
