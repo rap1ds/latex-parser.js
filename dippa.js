@@ -523,7 +523,7 @@ module.exports = (function(){
           pos = pos1;
         }
         if (result0 !== null) {
-          result0 = (function(offset, cname, args) { return "\\" + cname + args.join("") })(pos0, result0[1], result0[3]);
+          result0 = (function(offset, cname, args) { return {name: cname, args: args.join("") } })(pos0, result0[1], result0[3]);
         }
         if (result0 === null) {
           pos = pos0;

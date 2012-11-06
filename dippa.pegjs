@@ -46,7 +46,7 @@ Comment "comment"
   = SingleLineComment
   
 Command
-  = "\\" cname:CommandName "*"? args:CommandArgument* { return "\\" + cname + args.join("") }
+  = "\\" cname:CommandName "*"? args:CommandArgument* { return {name: cname, args: args.join("") } }
   
 CommandArgument
   = "\[" squareArg:SquareCharacters? "\]" { return "[" + squareArg + "]" }
