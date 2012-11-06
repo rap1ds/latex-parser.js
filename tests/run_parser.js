@@ -1,4 +1,4 @@
-var parser = require("./dippa");
+var parser = require("../latex-parser");
 var fs = require("fs");
 var path = require("path");
 

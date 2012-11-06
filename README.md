@@ -5,6 +5,6 @@ Usage:
 
 ```
 $ npm install -g pegjs
-$ pegjs dippa.pegjs
-$ node parser.js dippa.tex
+$ pegjs src/latex-parser.pegjs latex-parser.js
+$ node tests/run_parser.js tests/dippa.tex
 ```
