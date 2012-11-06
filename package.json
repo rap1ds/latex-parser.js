@@ -1,5 +1,5 @@
 {
-    "name" : "latex-parser.js",
+    "name" : "latex-parser",
     "version" : "0.0.1",
     "description" : "JavaScript Latex Parser",
     "author": "Mikko Koski @rap1ds",
