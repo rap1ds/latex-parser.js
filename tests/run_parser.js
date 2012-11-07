@@ -1,4 +1,4 @@
-var parser = require("../latex-parser");
+var parser = require("../latex-parser-node");
 var fs = require("fs");
 var path = require("path");
 

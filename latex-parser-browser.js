@@ -70,9 +70,9 @@ window.LatexParser = (function(){
         startRule = "start";
       }
       
-      var pos = 0;
+      var pos = { offset: 0, line: 1, column: 1, seenCR: false };
       var reportFailures = 0;
-      var rightmostFailuresPos = 0;
+      var rightmostFailuresPos = { offset: 0, line: 1, column: 1, seenCR: false };
       var rightmostFailuresExpected = [];
       
       function padLeft(input, padding, length) {
@@ -102,13 +102,43 @@ window.LatexParser = (function(){
         return '\\' + escapeChar + padLeft(charCode.toString(16).toUpperCase(), '0', length);
       }
       
+      function clone(object) {
+        var result = {};
+        for (var key in object) {
+          result[key] = object[key];
+        }
+        return result;
+      }
+      
+      function advance(pos, n) {
+        var endOffset = pos.offset + n;
+        
+        for (var offset = pos.offset; offset < endOffset; offset++) {
+          var ch = input.charAt(offset);
+          if (ch === "\n") {
+            if (!pos.seenCR) { pos.line++; }
+            pos.column = 1;
+            pos.seenCR = false;
+          } else if (ch === "\r" || ch === "\u2028" || ch === "\u2029") {
+            pos.line++;
+            pos.column = 1;
+            pos.seenCR = true;
+          } else {
+            pos.column++;
+            pos.seenCR = false;
+          }
+        }
+        
+        pos.offset += n;
+      }
+      
       function matchFailed(failure) {
-        if (pos < rightmostFailuresPos) {
+        if (pos.offset < rightmostFailuresPos.offset) {
           return;
         }
         
-        if (pos > rightmostFailuresPos) {
-          rightmostFailuresPos = pos;
+        if (pos.offset > rightmostFailuresPos.offset) {
+          rightmostFailuresPos = clone(pos);
           rightmostFailuresExpected = [];
         }
         
@@ -119,8 +149,8 @@ window.LatexParser = (function(){
         var result0, result1, result2;
         var pos0, pos1;
         
-        pos0 = pos;
-        pos1 = pos;
+        pos0 = clone(pos);
+        pos1 = clone(pos);
         result0 = parse___();
         if (result0 !== null) {
           result1 = parse_Document();
@@ -130,21 +160,21 @@ window.LatexParser = (function(){
               result0 = [result0, result1, result2];
             } else {
               result0 = null;
-              pos = pos1;
+              pos = clone(pos1);
             }
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, document) { return document; })(pos0, result0[1]);
+          result0 = (function(offset, line, column, document) { return document; })(pos0.offset, pos0.line, pos0.column, result0[1]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -153,19 +183,19 @@ window.LatexParser = (function(){
         var result0;
         var pos0;
         
-        pos0 = pos;
+        pos0 = clone(pos);
         result0 = parse_SourceElements();
         result0 = result0 !== null ? result0 : "";
         if (result0 !== null) {
-          result0 = (function(offset, elements) {
+          result0 = (function(offset, line, column, elements) {
               return {
                 type:     "Document",
                 elements: elements !== "" ? elements : []
               };
-            })(pos0, result0);
+            })(pos0.offset, pos0.line, pos0.column, result0);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -174,12 +204,12 @@ window.LatexParser = (function(){
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
         
-        pos0 = pos;
-        pos1 = pos;
+        pos0 = clone(pos);
+        pos1 = clone(pos);
         result0 = parse_SourceElement();
         if (result0 !== null) {
           result1 = [];
-          pos2 = pos;
+          pos2 = clone(pos);
           result2 = parse___();
           if (result2 !== null) {
             result3 = parse_SourceElement();
@@ -187,15 +217,15 @@ window.LatexParser = (function(){
               result2 = [result2, result3];
             } else {
               result2 = null;
-              pos = pos2;
+              pos = clone(pos2);
             }
           } else {
             result2 = null;
-            pos = pos2;
+            pos = clone(pos2);
           }
           while (result2 !== null) {
             result1.push(result2);
-            pos2 = pos;
+            pos2 = clone(pos);
             result2 = parse___();
             if (result2 !== null) {
               result3 = parse_SourceElement();
@@ -203,34 +233,34 @@ window.LatexParser = (function(){
                 result2 = [result2, result3];
               } else {
                 result2 = null;
-                pos = pos2;
+                pos = clone(pos2);
               }
             } else {
               result2 = null;
-              pos = pos2;
+              pos = clone(pos2);
             }
           }
           if (result1 !== null) {
             result0 = [result0, result1];
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, head, tail) {
+          result0 = (function(offset, line, column, head, tail) {
               var result = [head];
               for (var i = 0; i < tail.length; i++) {
                 result.push(tail[i][1]);
               }
               return result;
-            })(pos0, result0[0], result0[1]);
+            })(pos0.offset, pos0.line, pos0.column, result0[0], result0[1]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -239,22 +269,22 @@ window.LatexParser = (function(){
         var result0;
         var pos0;
         
-        pos0 = pos;
+        pos0 = clone(pos);
         result0 = parse_Command();
         if (result0 !== null) {
-          result0 = (function(offset, command) { return {command : command} })(pos0, result0);
+          result0 = (function(offset, line, column, command) { return {command : command} })(pos0.offset, pos0.line, pos0.column, result0);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         if (result0 === null) {
-          pos0 = pos;
+          pos0 = clone(pos);
           result0 = parse_TextCharacters();
           if (result0 !== null) {
-            result0 = (function(offset, text) { return {text : text} })(pos0, result0);
+            result0 = (function(offset, line, column, text) { return {text : text} })(pos0.offset, pos0.line, pos0.column, result0);
           }
           if (result0 === null) {
-            pos = pos0;
+            pos = clone(pos0);
           }
         }
         return result0;
@@ -263,9 +293,9 @@ window.LatexParser = (function(){
       function parse_SourceCharacter() {
         var result0;
         
-        if (input.length > pos) {
-          result0 = input.charAt(pos);
-          pos++;
+        if (input.length > pos.offset) {
+          result0 = input.charAt(pos.offset);
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -279,7 +309,7 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0;
         
-        pos0 = pos;
+        pos0 = clone(pos);
         result1 = parse_TextCharacter();
         if (result1 !== null) {
           result0 = [];
@@ -291,10 +321,16 @@ window.LatexParser = (function(){
           result0 = null;
         }
         if (result0 !== null) {
-          result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0);
+          result0 = (function(offset, line, column, chars) { 
+            return {
+              content: chars.join(""),
+              line: line,
+              column: column
+            }
+          })(pos0.offset, pos0.line, pos0.column, result0);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -303,13 +339,13 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0, pos1, pos2;
         
-        pos0 = pos;
-        pos1 = pos;
-        pos2 = pos;
+        pos0 = clone(pos);
+        pos1 = clone(pos);
+        pos2 = clone(pos);
         reportFailures++;
-        if (input.charCodeAt(pos) === 92) {
+        if (input.charCodeAt(pos.offset) === 92) {
           result0 = "\\";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -317,9 +353,9 @@ window.LatexParser = (function(){
           }
         }
         if (result0 === null) {
-          if (input.charCodeAt(pos) === 37) {
+          if (input.charCodeAt(pos.offset) === 37) {
             result0 = "%";
-            pos++;
+            advance(pos, 1);
           } else {
             result0 = null;
             if (reportFailures === 0) {
@@ -332,7 +368,7 @@ window.LatexParser = (function(){
           result0 = "";
         } else {
           result0 = null;
-          pos = pos2;
+          pos = clone(pos2);
         }
         if (result0 !== null) {
           result1 = parse_SourceCharacter();
@@ -340,22 +376,22 @@ window.LatexParser = (function(){
             result0 = [result0, result1];
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, char_) { return char_; })(pos0, result0[1]);
+          result0 = (function(offset, line, column, char_) { return char_; })(pos0.offset, pos0.line, pos0.column, result0[1]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         if (result0 === null) {
-          if (input.substr(pos, 7) === "\\LaTeX\\") {
+          if (input.substr(pos.offset, 7) === "\\LaTeX\\") {
             result0 = "\\LaTeX\\";
-            pos += 7;
+            advance(pos, 7);
           } else {
             result0 = null;
             if (reportFailures === 0) {
@@ -363,9 +399,9 @@ window.LatexParser = (function(){
             }
           }
           if (result0 === null) {
-            if (input.substr(pos, 2) === "\\\\") {
+            if (input.substr(pos.offset, 2) === "\\\\") {
               result0 = "\\\\";
-              pos += 2;
+              advance(pos, 2);
             } else {
               result0 = null;
               if (reportFailures === 0) {
@@ -373,10 +409,10 @@ window.LatexParser = (function(){
               }
             }
             if (result0 === null) {
-              pos0 = pos;
-              if (input.charCodeAt(pos) === 92) {
+              pos0 = clone(pos);
+              if (input.charCodeAt(pos.offset) === 92) {
                 result0 = "\\";
-                pos++;
+                advance(pos, 1);
               } else {
                 result0 = null;
                 if (reportFailures === 0) {
@@ -389,11 +425,11 @@ window.LatexParser = (function(){
                   result0 = [result0, result1];
                 } else {
                   result0 = null;
-                  pos = pos0;
+                  pos = clone(pos0);
                 }
               } else {
                 result0 = null;
-                pos = pos0;
+                pos = clone(pos0);
               }
             }
           }
@@ -404,9 +440,9 @@ window.LatexParser = (function(){
       function parse_EscapedCharacter() {
         var result0;
         
-        if (input.charCodeAt(pos) === 123) {
+        if (input.charCodeAt(pos.offset) === 123) {
           result0 = "{";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -414,9 +450,9 @@ window.LatexParser = (function(){
           }
         }
         if (result0 === null) {
-          if (input.charCodeAt(pos) === 125) {
+          if (input.charCodeAt(pos.offset) === 125) {
             result0 = "}";
-            pos++;
+            advance(pos, 1);
           } else {
             result0 = null;
             if (reportFailures === 0) {
@@ -424,9 +460,9 @@ window.LatexParser = (function(){
             }
           }
           if (result0 === null) {
-            if (input.charCodeAt(pos) === 91) {
+            if (input.charCodeAt(pos.offset) === 91) {
               result0 = "[";
-              pos++;
+              advance(pos, 1);
             } else {
               result0 = null;
               if (reportFailures === 0) {
@@ -434,9 +470,9 @@ window.LatexParser = (function(){
               }
             }
             if (result0 === null) {
-              if (input.charCodeAt(pos) === 93) {
+              if (input.charCodeAt(pos.offset) === 93) {
                 result0 = "]";
-                pos++;
+                advance(pos, 1);
               } else {
                 result0 = null;
                 if (reportFailures === 0) {
@@ -453,10 +489,10 @@ window.LatexParser = (function(){
         var result0, result1, result2, result3;
         var pos0, pos1, pos2;
         
-        pos0 = pos;
-        if (input.charCodeAt(pos) === 37) {
+        pos0 = clone(pos);
+        if (input.charCodeAt(pos.offset) === 37) {
           result0 = "%";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -465,8 +501,8 @@ window.LatexParser = (function(){
         }
         if (result0 !== null) {
           result1 = [];
-          pos1 = pos;
-          pos2 = pos;
+          pos1 = clone(pos);
+          pos2 = clone(pos);
           reportFailures++;
           result2 = parse_LineTerminator();
           reportFailures--;
@@ -474,7 +510,7 @@ window.LatexParser = (function(){
             result2 = "";
           } else {
             result2 = null;
-            pos = pos2;
+            pos = clone(pos2);
           }
           if (result2 !== null) {
             result3 = parse_SourceCharacter();
@@ -482,16 +518,16 @@ window.LatexParser = (function(){
               result2 = [result2, result3];
             } else {
               result2 = null;
-              pos = pos1;
+              pos = clone(pos1);
             }
           } else {
             result2 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
           while (result2 !== null) {
             result1.push(result2);
-            pos1 = pos;
-            pos2 = pos;
+            pos1 = clone(pos);
+            pos2 = clone(pos);
             reportFailures++;
             result2 = parse_LineTerminator();
             reportFailures--;
@@ -499,7 +535,7 @@ window.LatexParser = (function(){
               result2 = "";
             } else {
               result2 = null;
-              pos = pos2;
+              pos = clone(pos2);
             }
             if (result2 !== null) {
               result3 = parse_SourceCharacter();
@@ -507,22 +543,22 @@ window.LatexParser = (function(){
                 result2 = [result2, result3];
               } else {
                 result2 = null;
-                pos = pos1;
+                pos = clone(pos1);
               }
             } else {
               result2 = null;
-              pos = pos1;
+              pos = clone(pos1);
             }
           }
           if (result1 !== null) {
             result0 = [result0, result1];
           } else {
             result0 = null;
-            pos = pos0;
+            pos = clone(pos0);
           }
         } else {
           result0 = null;
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -530,9 +566,9 @@ window.LatexParser = (function(){
       function parse_LineTerminator() {
         var result0;
         
-        if (input.charCodeAt(pos) === 10) {
+        if (input.charCodeAt(pos.offset) === 10) {
           result0 = "\n";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -546,11 +582,11 @@ window.LatexParser = (function(){
         var result0, result1, result2, result3, result4;
         var pos0, pos1;
         
-        pos0 = pos;
-        pos1 = pos;
-        if (input.charCodeAt(pos) === 92) {
+        pos0 = clone(pos);
+        pos1 = clone(pos);
+        if (input.charCodeAt(pos.offset) === 92) {
           result0 = "\\";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -560,9 +596,9 @@ window.LatexParser = (function(){
         if (result0 !== null) {
           result1 = parse_CommandName();
           if (result1 !== null) {
-            if (input.charCodeAt(pos) === 42) {
+            if (input.charCodeAt(pos.offset) === 42) {
               result2 = "*";
-              pos++;
+              advance(pos, 1);
             } else {
               result2 = null;
               if (reportFailures === 0) {
@@ -581,25 +617,32 @@ window.LatexParser = (function(){
                 result0 = [result0, result1, result2, result3];
               } else {
                 result0 = null;
-                pos = pos1;
+                pos = clone(pos1);
               }
             } else {
               result0 = null;
-              pos = pos1;
+              pos = clone(pos1);
             }
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, cname, args) { return {name: cname, args: args.join("") } })(pos0, result0[1], result0[3]);
+          result0 = (function(offset, line, column, cname, args) { 
+              return {
+                name: cname, 
+                args: args.join(""),
+                line: line,
+                column: column
+              }
+            })(pos0.offset, pos0.line, pos0.column, result0[1], result0[3]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -608,11 +651,11 @@ window.LatexParser = (function(){
         var result0, result1, result2;
         var pos0, pos1;
         
-        pos0 = pos;
-        pos1 = pos;
-        if (input.charCodeAt(pos) === 91) {
+        pos0 = clone(pos);
+        pos1 = clone(pos);
+        if (input.charCodeAt(pos.offset) === 91) {
           result0 = "[";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -623,9 +666,9 @@ window.LatexParser = (function(){
           result1 = parse_SquareCharacters();
           result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
-            if (input.charCodeAt(pos) === 93) {
+            if (input.charCodeAt(pos.offset) === 93) {
               result2 = "]";
-              pos++;
+              advance(pos, 1);
             } else {
               result2 = null;
               if (reportFailures === 0) {
@@ -636,28 +679,28 @@ window.LatexParser = (function(){
               result0 = [result0, result1, result2];
             } else {
               result0 = null;
-              pos = pos1;
+              pos = clone(pos1);
             }
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, squareArg) { return "[" + squareArg + "]" })(pos0, result0[1]);
+          result0 = (function(offset, line, column, squareArg) { return "[" + squareArg + "]" })(pos0.offset, pos0.line, pos0.column, result0[1]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         if (result0 === null) {
-          pos0 = pos;
-          pos1 = pos;
-          if (input.charCodeAt(pos) === 123) {
+          pos0 = clone(pos);
+          pos1 = clone(pos);
+          if (input.charCodeAt(pos.offset) === 123) {
             result0 = "{";
-            pos++;
+            advance(pos, 1);
           } else {
             result0 = null;
             if (reportFailures === 0) {
@@ -668,9 +711,9 @@ window.LatexParser = (function(){
             result1 = parse_CurlyCharacters();
             result1 = result1 !== null ? result1 : "";
             if (result1 !== null) {
-              if (input.charCodeAt(pos) === 125) {
+              if (input.charCodeAt(pos.offset) === 125) {
                 result2 = "}";
-                pos++;
+                advance(pos, 1);
               } else {
                 result2 = null;
                 if (reportFailures === 0) {
@@ -681,21 +724,21 @@ window.LatexParser = (function(){
                 result0 = [result0, result1, result2];
               } else {
                 result0 = null;
-                pos = pos1;
+                pos = clone(pos1);
               }
             } else {
               result0 = null;
-              pos = pos1;
+              pos = clone(pos1);
             }
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
           if (result0 !== null) {
-            result0 = (function(offset, curlyArg) { return "{" + curlyArg + "}" })(pos0, result0[1]);
+            result0 = (function(offset, line, column, curlyArg) { return "{" + curlyArg + "}" })(pos0.offset, pos0.line, pos0.column, result0[1]);
           }
           if (result0 === null) {
-            pos = pos0;
+            pos = clone(pos0);
           }
         }
         return result0;
@@ -705,10 +748,10 @@ window.LatexParser = (function(){
         var result0, result1, result2;
         var pos0;
         
-        pos0 = pos;
-        if (input.charCodeAt(pos) === 123) {
+        pos0 = clone(pos);
+        if (input.charCodeAt(pos.offset) === 123) {
           result0 = "{";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -719,9 +762,9 @@ window.LatexParser = (function(){
           result1 = parse_CurlyCharacters();
           result1 = result1 !== null ? result1 : "";
           if (result1 !== null) {
-            if (input.charCodeAt(pos) === 125) {
+            if (input.charCodeAt(pos.offset) === 125) {
               result2 = "}";
-              pos++;
+              advance(pos, 1);
             } else {
               result2 = null;
               if (reportFailures === 0) {
@@ -732,15 +775,15 @@ window.LatexParser = (function(){
               result0 = [result0, result1, result2];
             } else {
               result0 = null;
-              pos = pos0;
+              pos = clone(pos0);
             }
           } else {
             result0 = null;
-            pos = pos0;
+            pos = clone(pos0);
           }
         } else {
           result0 = null;
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -749,7 +792,7 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0;
         
-        pos0 = pos;
+        pos0 = clone(pos);
         result1 = parse_SquareCharacter();
         if (result1 !== null) {
           result0 = [];
@@ -761,10 +804,10 @@ window.LatexParser = (function(){
           result0 = null;
         }
         if (result0 !== null) {
-          result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0);
+          result0 = (function(offset, line, column, chars) { return chars.join(""); })(pos0.offset, pos0.line, pos0.column, result0);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -773,13 +816,13 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0, pos1, pos2;
         
-        pos0 = pos;
-        pos1 = pos;
-        pos2 = pos;
+        pos0 = clone(pos);
+        pos1 = clone(pos);
+        pos2 = clone(pos);
         reportFailures++;
-        if (input.charCodeAt(pos) === 93) {
+        if (input.charCodeAt(pos.offset) === 93) {
           result0 = "]";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -791,7 +834,7 @@ window.LatexParser = (function(){
           result0 = "";
         } else {
           result0 = null;
-          pos = pos2;
+          pos = clone(pos2);
         }
         if (result0 !== null) {
           result1 = parse_SourceCharacter();
@@ -799,17 +842,17 @@ window.LatexParser = (function(){
             result0 = [result0, result1];
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, char_) { return char_; })(pos0, result0[1]);
+          result0 = (function(offset, line, column, char_) { return char_; })(pos0.offset, pos0.line, pos0.column, result0[1]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -818,7 +861,7 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0;
         
-        pos0 = pos;
+        pos0 = clone(pos);
         result1 = parse_CurlyCharacter();
         if (result1 !== null) {
           result0 = [];
@@ -830,10 +873,10 @@ window.LatexParser = (function(){
           result0 = null;
         }
         if (result0 !== null) {
-          result0 = (function(offset, chars) { return chars.join(""); })(pos0, result0);
+          result0 = (function(offset, line, column, chars) { return chars.join(""); })(pos0.offset, pos0.line, pos0.column, result0);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -842,13 +885,13 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0, pos1, pos2;
         
-        pos0 = pos;
-        pos1 = pos;
-        pos2 = pos;
+        pos0 = clone(pos);
+        pos1 = clone(pos);
+        pos2 = clone(pos);
         reportFailures++;
-        if (input.charCodeAt(pos) === 123) {
+        if (input.charCodeAt(pos.offset) === 123) {
           result0 = "{";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -856,9 +899,9 @@ window.LatexParser = (function(){
           }
         }
         if (result0 === null) {
-          if (input.charCodeAt(pos) === 125) {
+          if (input.charCodeAt(pos.offset) === 125) {
             result0 = "}";
-            pos++;
+            advance(pos, 1);
           } else {
             result0 = null;
             if (reportFailures === 0) {
@@ -871,7 +914,7 @@ window.LatexParser = (function(){
           result0 = "";
         } else {
           result0 = null;
-          pos = pos2;
+          pos = clone(pos2);
         }
         if (result0 !== null) {
           result1 = parse_SourceCharacter();
@@ -879,17 +922,17 @@ window.LatexParser = (function(){
             result0 = [result0, result1];
           } else {
             result0 = null;
-            pos = pos1;
+            pos = clone(pos1);
           }
         } else {
           result0 = null;
-          pos = pos1;
+          pos = clone(pos1);
         }
         if (result0 !== null) {
-          result0 = (function(offset, char_) { return char_; })(pos0, result0[1]);
+          result0 = (function(offset, line, column, char_) { return char_; })(pos0.offset, pos0.line, pos0.column, result0[1]);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         if (result0 === null) {
           result0 = parse_CurlyBlock();
@@ -901,10 +944,10 @@ window.LatexParser = (function(){
         var result0, result1;
         var pos0;
         
-        pos0 = pos;
-        if (/^[a-zA-Z]/.test(input.charAt(pos))) {
-          result1 = input.charAt(pos);
-          pos++;
+        pos0 = clone(pos);
+        if (/^[a-zA-Z]/.test(input.charAt(pos.offset))) {
+          result1 = input.charAt(pos.offset);
+          advance(pos, 1);
         } else {
           result1 = null;
           if (reportFailures === 0) {
@@ -915,9 +958,9 @@ window.LatexParser = (function(){
           result0 = [];
           while (result1 !== null) {
             result0.push(result1);
-            if (/^[a-zA-Z]/.test(input.charAt(pos))) {
-              result1 = input.charAt(pos);
-              pos++;
+            if (/^[a-zA-Z]/.test(input.charAt(pos.offset))) {
+              result1 = input.charAt(pos.offset);
+              advance(pos, 1);
             } else {
               result1 = null;
               if (reportFailures === 0) {
@@ -929,10 +972,10 @@ window.LatexParser = (function(){
           result0 = null;
         }
         if (result0 !== null) {
-          result0 = (function(offset, cname) { return cname.join(""); })(pos0, result0);
+          result0 = (function(offset, line, column, cname) { return cname.join(""); })(pos0.offset, pos0.line, pos0.column, result0);
         }
         if (result0 === null) {
-          pos = pos0;
+          pos = clone(pos0);
         }
         return result0;
       }
@@ -983,9 +1026,9 @@ window.LatexParser = (function(){
         var result0;
         
         reportFailures++;
-        if (/^[\t\x0B\f \xA0\uFEFF]/.test(input.charAt(pos))) {
-          result0 = input.charAt(pos);
-          pos++;
+        if (/^[\t\x0B\f \xA0\uFEFF]/.test(input.charAt(pos.offset))) {
+          result0 = input.charAt(pos.offset);
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -1005,9 +1048,9 @@ window.LatexParser = (function(){
       function parse_Zs() {
         var result0;
         
-        if (/^[ \xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000]/.test(input.charAt(pos))) {
-          result0 = input.charAt(pos);
-          pos++;
+        if (/^[ \xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000]/.test(input.charAt(pos.offset))) {
+          result0 = input.charAt(pos.offset);
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -1021,9 +1064,9 @@ window.LatexParser = (function(){
         var result0;
         
         reportFailures++;
-        if (input.charCodeAt(pos) === 10) {
+        if (input.charCodeAt(pos.offset) === 10) {
           result0 = "\n";
-          pos++;
+          advance(pos, 1);
         } else {
           result0 = null;
           if (reportFailures === 0) {
@@ -1031,9 +1074,9 @@ window.LatexParser = (function(){
           }
         }
         if (result0 === null) {
-          if (input.substr(pos, 2) === "\r\n") {
+          if (input.substr(pos.offset, 2) === "\r\n") {
             result0 = "\r\n";
-            pos += 2;
+            advance(pos, 2);
           } else {
             result0 = null;
             if (reportFailures === 0) {
@@ -1041,9 +1084,9 @@ window.LatexParser = (function(){
             }
           }
           if (result0 === null) {
-            if (input.charCodeAt(pos) === 13) {
+            if (input.charCodeAt(pos.offset) === 13) {
               result0 = "\r";
-              pos++;
+              advance(pos, 1);
             } else {
               result0 = null;
               if (reportFailures === 0) {
@@ -1051,9 +1094,9 @@ window.LatexParser = (function(){
               }
             }
             if (result0 === null) {
-              if (input.charCodeAt(pos) === 8232) {
+              if (input.charCodeAt(pos.offset) === 8232) {
                 result0 = "\u2028";
-                pos++;
+                advance(pos, 1);
               } else {
                 result0 = null;
                 if (reportFailures === 0) {
@@ -1061,9 +1104,9 @@ window.LatexParser = (function(){
                 }
               }
               if (result0 === null) {
-                if (input.charCodeAt(pos) === 8233) {
+                if (input.charCodeAt(pos.offset) === 8233) {
                   result0 = "\u2029";
-                  pos++;
+                  advance(pos, 1);
                 } else {
                   result0 = null;
                   if (reportFailures === 0) {
@@ -1096,36 +1139,6 @@ window.LatexParser = (function(){
         return cleanExpected;
       }
       
-      function computeErrorPosition() {
-        /*
-         * The first idea was to use |String.split| to break the input up to the
-         * error position along newlines and derive the line and column from
-         * there. However IE's |split| implementation is so broken that it was
-         * enough to prevent it.
-         */
-        
-        var line = 1;
-        var column = 1;
-        var seenCR = false;
-        
-        for (var i = 0; i < Math.max(pos, rightmostFailuresPos); i++) {
-          var ch = input.charAt(i);
-          if (ch === "\n") {
-            if (!seenCR) { line++; }
-            column = 1;
-            seenCR = false;
-          } else if (ch === "\r" || ch === "\u2028" || ch === "\u2029") {
-            line++;
-            column = 1;
-            seenCR = true;
-          } else {
-            column++;
-            seenCR = false;
-          }
-        }
-        
-        return { line: line, column: column };
-      }
       
       
       var result = parseFunctions[startRule]();
@@ -1136,28 +1149,28 @@ window.LatexParser = (function(){
        * 1. The parser successfully parsed the whole input.
        *
        *    - |result !== null|
-       *    - |pos === input.length|
+       *    - |pos.offset === input.length|
        *    - |rightmostFailuresExpected| may or may not contain something
        *
        * 2. The parser successfully parsed only a part of the input.
        *
        *    - |result !== null|
-       *    - |pos < input.length|
+       *    - |pos.offset < input.length|
        *    - |rightmostFailuresExpected| may or may not contain something
        *
        * 3. The parser did not successfully parse any part of the input.
        *
        *   - |result === null|
-       *   - |pos === 0|
+       *   - |pos.offset === 0|
        *   - |rightmostFailuresExpected| contains at least one failure
        *
        * All code following this comment (including called functions) must
        * handle these states.
        */
-      if (result === null || pos !== input.length) {
-        var offset = Math.max(pos, rightmostFailuresPos);
+      if (result === null || pos.offset !== input.length) {
+        var offset = Math.max(pos.offset, rightmostFailuresPos.offset);
         var found = offset < input.length ? input.charAt(offset) : null;
-        var errorPosition = computeErrorPosition();
+        var errorPosition = pos.offset > rightmostFailuresPos.offset ? pos : rightmostFailuresPos;
         
         throw new this.SyntaxError(
           cleanupExpected(rightmostFailuresExpected),

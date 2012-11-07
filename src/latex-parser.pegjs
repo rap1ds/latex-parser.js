@@ -29,7 +29,13 @@ TextBlock
   = TextCharacters
   
 TextCharacters
-  = chars:TextCharacter+ { return chars.join(""); }
+  = chars:TextCharacter+ { 
+    return {
+      content: chars.join(""),
+      line: line,
+      column: column
+    }
+  }
 
 TextCharacter
   = !("\\" / "%") char_:SourceCharacter { return char_; }
@@ -50,7 +56,14 @@ Comment "comment"
   = SingleLineComment
   
 Command
-  = "\\" cname:CommandName "*"? args:CommandArgument* { return {name: cname, args: args.join("") } }
+  = "\\" cname:CommandName "*"? args:CommandArgument* { 
+      return {
+        name: cname, 
+        args: args.join(""),
+        line: line,
+        column: column
+      }
+    }
   
 CommandArgument
   = "\[" squareArg:SquareCharacters? "\]" { return "[" + squareArg + "]" }
