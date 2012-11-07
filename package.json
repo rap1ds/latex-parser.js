@@ -8,6 +8,6 @@
         "type" : "git",
         "url" : "http://github.com/rap1ds/latex-parser.js.git"
     },
-    "main": "./latex-parser.js"
+    "main": "./latex-parser-node.js"
 }
 
