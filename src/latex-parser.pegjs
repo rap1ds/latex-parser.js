@@ -35,6 +35,10 @@ TextCharacter
   = !("\\" / "%") char_:SourceCharacter { return char_; }
   / "\\LaTeX\\"
   / "\\\\"
+  / "\\" sequence:EscapedCharacter
+
+EscapedCharacter
+  = ("\{" / "\}" / "\[" / "\]")
   
 SingleLineComment
   = "%" (!LineTerminator SourceCharacter)*

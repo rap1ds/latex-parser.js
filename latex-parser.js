@@ -44,6 +44,7 @@ module.exports = (function(){
         "SourceCharacter": parse_SourceCharacter,
         "TextCharacters": parse_TextCharacters,
         "TextCharacter": parse_TextCharacter,
+        "EscapedCharacter": parse_EscapedCharacter,
         "SingleLineComment": parse_SingleLineComment,
         "LineTerminator": parse_LineTerminator,
         "Command": parse_Command,
@@ -369,6 +370,78 @@ module.exports = (function(){
               result0 = null;
               if (reportFailures === 0) {
                 matchFailed("\"\\\\\\\\\"");
+              }
+            }
+            if (result0 === null) {
+              pos0 = pos;
+              if (input.charCodeAt(pos) === 92) {
+                result0 = "\\";
+                pos++;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"\\\\\"");
+                }
+              }
+              if (result0 !== null) {
+                result1 = parse_EscapedCharacter();
+                if (result1 !== null) {
+                  result0 = [result0, result1];
+                } else {
+                  result0 = null;
+                  pos = pos0;
+                }
+              } else {
+                result0 = null;
+                pos = pos0;
+              }
+            }
+          }
+        }
+        return result0;
+      }
+      
+      function parse_EscapedCharacter() {
+        var result0;
+        
+        if (input.charCodeAt(pos) === 123) {
+          result0 = "{";
+          pos++;
+        } else {
+          result0 = null;
+          if (reportFailures === 0) {
+            matchFailed("\"{\"");
+          }
+        }
+        if (result0 === null) {
+          if (input.charCodeAt(pos) === 125) {
+            result0 = "}";
+            pos++;
+          } else {
+            result0 = null;
+            if (reportFailures === 0) {
+              matchFailed("\"}\"");
+            }
+          }
+          if (result0 === null) {
+            if (input.charCodeAt(pos) === 91) {
+              result0 = "[";
+              pos++;
+            } else {
+              result0 = null;
+              if (reportFailures === 0) {
+                matchFailed("\"[\"");
+              }
+            }
+            if (result0 === null) {
+              if (input.charCodeAt(pos) === 93) {
+                result0 = "]";
+                pos++;
+              } else {
+                result0 = null;
+                if (reportFailures === 0) {
+                  matchFailed("\"]\"");
+                }
               }
             }
           }
