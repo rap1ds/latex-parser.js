@@ -8,6 +8,9 @@
         "type" : "git",
         "url" : "http://github.com/rap1ds/latex-parser.js.git"
     },
-    "main": "./latex-parser-node.js"
+    "main": "./latex-parser-node.js",
+    "dependencies": {
+      "colors": "0.6.x"
+    }
 }
 

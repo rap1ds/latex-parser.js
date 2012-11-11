@@ -1,26 +1,67 @@
 var parser = require("../latex-parser-node");
 var fs = require("fs");
 var path = require("path");
+var colors = require('colors'); 
 
-var src = process.argv[2];
-
-if(!src) {
-  throw new Error("No source defined");
+function readDir(dir) {
+  return fs.readdirSync(path.resolve(dir))
+    .map(function(filename) {
+      return path.join(dir, filename);
+    });
 }
 
-console.log("Parser");
+function readFile(filename) {
+  console.log('Reading file', filename);
+  return {
+    filename: filename,
+    data: fs.readFileSync(path.resolve(filename), 'utf8')
+  };
+}
 
-fs.readFile(path.resolve(src), 'utf8', function (err, data) {
-  var result;
+function parse(file) {
   try {
-    result = parser.parse(data);
+    var result = parser.parse(file.data);
+    file.result = {successful: true, value: result};
   } catch (e) {
-    console.log("[" + e.line + ":" + e.column + "] " + e.message);
-    return;
+    file.result = {successful: false, value: e};
   }
-  
-  console.log("Parsing successful");
-  console.log(JSON.stringify(result, null, 2));
-});
+  return file;
+}
 
+function printSuccess(verbose) {
+  return function(file) {
+    console.log('File: ' + file.filename);
+    console.log('Successfully parsed'.green);
+    console.log();
+    if(verbose) {
+      console.log(JSON.stringify(file.result.value, null, 2));
+    }
+  }
+}
 
+function printError(file) {
+  console.log('File: ' + file.filename);
+  console.log('Error in line ' + file.result.line + ':' + file.result.column + ''.red);
+  console.log();
+  console.log(e.message);
+}
+
+function printSeparator() {
+  console.log();
+  console.log('==================================================');
+  console.log();
+}
+
+function printResult(verbose, file) {
+  var printer = file.result.successful ? printSuccess(verbose) : printError;
+  printer(file);
+}
+
+readDir('docs')
+  .map(readFile)
+  .map(parse)
+  .forEach(function(file) {
+    printResult(true, file);
+    printSeparator();
+    printResult(false, file);
+  });
