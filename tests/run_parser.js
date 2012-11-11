@@ -23,7 +23,7 @@ function parse(file) {
     var result = parser.parse(file.data);
     file.result = {successful: true, value: result};
   } catch (e) {
-    file.result = {successful: false, value: e};
+    file.result = {successful: false, error: e};
   }
   return file;
 }
@@ -32,18 +32,18 @@ function printSuccess(verbose) {
   return function(file) {
     console.log('File: ' + file.filename);
     console.log('Successfully parsed'.green);
-    console.log();
     if(verbose) {
       console.log(JSON.stringify(file.result.value, null, 2));
     }
+    console.log();
   }
 }
 
 function printError(file) {
   console.log('File: ' + file.filename);
-  console.log('Error in line ' + file.result.line + ':' + file.result.column + ''.red);
+  console.log(('Error in line ' + file.result.error.line + ':' + file.result.error.column + '').red);
+  console.log(file.result.error.message);
   console.log();
-  console.log(e.message);
 }
 
 function printSeparator() {
@@ -57,11 +57,16 @@ function printResult(verbose, file) {
   printer(file);
 }
 
-readDir('docs')
+var parsed = readDir('docs')
   .map(readFile)
   .map(parse)
-  .forEach(function(file) {
-    printResult(true, file);
-    printSeparator();
-    printResult(false, file);
-  });
+  
+parsed.forEach(function(file) {
+  printResult(true, file);
+});
+
+printSeparator();
+
+parsed.forEach(function(file) {
+  printResult(false, file);
+});

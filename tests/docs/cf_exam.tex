@@ -1,0 +1,814 @@
+ss[a4paper]{article}
+
+% Encoodaus, joka sopii suomenkielellä (esim. ä ja ö)
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Suomenkielinen tavutus
+\usepackage[finnish]{babel}
+
+% Viitteet
+\usepackage{natbib}
+
+\usepackage{alltt}
+
+% Viitteiden merkit
+\bibpunct{(}{)}{;}{a}{,}{,}
+
+\usepackage{titlesec}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}{}
+\titlespacing{\subsection}{0pt}{*1.5}{*1.0}
+
+\begin{document}
+
+\title{\small Yrityksen rahoitus \\ \huge Tenttivastaukset}
+\date{25.2.2012}
+\author{Mikko Koski \\ mikko.koski@aalto.fi \\ 66467F}
+\maketitle
+
+\normalsize
+\setlength{\parindent}{0cm}
+
+\usepackage{parskip}
+\setlength{\parskip}{0.5em}
+
+% \section{Tentti 2009-06}
+
+\subsection{Diskonttokorko (engl. discount rate)}
+
+
+
+\subsection{Beta (termi ja laskeminen)}
+
+Beta kuvaa osakkeen systemaattista riskiä. Beta kuvaa sitä, miten paljon markkinoiden suhtanteet vaikuttavat osakkeen arvoon. Korkean betan osakkeiden arvo laskevat/nousevat huomattavasti markkinoiden mukana, kun taas matalan betan osakkeet pitävät hyvin arvonsa markkinoista huolimatta. Beta voi olla myös negatiivinen, jolloin osakkeen arvo muuttuu päinvastoin kuin markkinoiden arvo.
+
+Esimerkki:
+
+Markkinaportfolion kehitys: 47\% hyvillä markkinoilla, -25\% huonoilla
+Osakkeen kehitys: 40\% hyvillä markkinoilla, -20\% huonoilla.
+
+Mikä on osakkeen beta?
+
+$\Delta Mkt = 47\% - (-25\%) = 72\% $
+
+$\Delta Stock = 40\% - (-20\%) = 60\%$
+
+$\beta Stock = \frac{60\%}{72\%} = 0.833 $
+
+Jos firman arvo ei riipu markkinoista, vaan vain sen omasta toiminnasta $\beta = 0\%$
+
+Betan ja volatiliteetin välillä ei ole välttämättä yhteyttä. Volatiliteetti mittaa kokonaisriskiä, eli markkinoiden ja yrityksen yhteisriskiä. Lääkefirmaesimerkki: Lääkefirmojen tuotto riippuu isoriskisistä kehitystyön tuloksista ym, mutta lääkkeiden menekki vain vähän yleisestä talouden tilasta.
+
+Beta voidaan aina laskea suhteessa johonkin portfolioon. Yllä olevat laskut laskivat osakkeen betan suhteessa markkinoihin. Laskuissa, joissa kysytään, kannattaako osaketta i lisätä portfolioon P, tulee laskea i:n beta suhteessa portfolioon P.
+
+\[
+    \beta_i^P = \frac{SD(R_i) \times Corr(R_i, R_p)}{SD(R_p)}
+\]
+
+Tämä tarkoittaa: Jokaista 1\% portfolion nousua kohden i nousee $\beta_i^P\%$
+
+Jos sijoituksen i oletettu tuotto $E[Ri]$ ylittää sen vaaditun tuoton $r_i$ (laskettu CAPM), sijoitus on kannattava.
+
+\subsection{Portfolion beta}
+
+Beta voidaan laskea (arvioida) lähes mille tahansa vaihdettavalle arvopaperille, sekä portfolioille.
+
+Portfolion beta on sijoituksien painotuksilla keskiarvo betoista:
+
+\[
+    \beta_P = \sum_{i} x_i \times \beta_i
+\]
+
+\subsection{(Equity beta)}
+
+Equity beta, eli oman pääoman beta on käytännössä sama kuin yrityksen osakkeiden beta.
+
+\subsection{(Debt beta)}
+
+Velan beta. Muodostuu esim. luottoriskistä. Riskittömän velan beta on 0.
+
+\subsection{Unlevered beta}
+
+a.k.a Asset beta
+
+Portfolion betan kaavalla, sillä yritystä voi ajatella portfoliona veloista ja pääomasta.
+
+\[
+    \beta_U = \frac{E}{E + D} \beta_E \frac{E}{E + D} \beta_D
+\]
+
+\subsection{Firm-specific risk}
+
+Yhtiön oman toiminnan aiheuttama riski.
+
+Kutsutaan myös \textit{idiosyncratic}, \textit{unique} tai \textit{diversifiable risk}
+
+Yhtiökohtaisen riskin pystyy poistamaan portfoliosta hajauttamalla.
+
+\subsection{Systematic risk}
+
+Markkinoiden riski. Ei pysty hajauttamaan pois portfoliosta.
+
+Kutsutaan myös \textit{market-wide}, \textit{undiversifiable}, \textit{market}, risk.
+
+\subsection{Velan suhde omaan pääomaan (engl. debt-equity ratio)}
+
+Paljonko yrityksellä on velkaa suhteessa omaan pääomaan?
+
+\subsection{Riskittömän tuoton korko (engl. risk-free rate)}
+
+Paljonko riskitön sijoitus tuottaa. Riskittömänä sijoituksena pidetään usein esim. valtion pitkäaikaisia velkakirjoja. Riskillisestä sijoituksesta halutaan saada tuotto, joka on suurempi kuin riskittömässä sijoituksessa. Riskittömän sijoituksen tuoton ja riskillisen sijoituksen tuoton erotusta sanotaan riskipreemioksi.
+
+\subsection{Markkinaportfolion riskipreemio (engl. expected risk premium on the market portfolio)}
+
+Paljonko markkinaportfolio tuottaa extraa suhteessa riskittömään sijoitukseen? Paljonko sijoittaja ansaitsee ylimäärästä riskistä, jonka hän ottaa omistamalla markkinaportfolion ($\beta = 1$) verrattuna riskittömään velkakirjaan?
+
+\[Market\ Risk\ Premium = E[R_Mkt] - r_f$\]
+
+\subsection{Projektin tuottovaatimus (laskeminen) (engl. required return for the project)}
+
+
+
+\subsection{Osakkeiden tuottovaatimus (laskeminen) (required return on the shares)}
+
+CAPM
+
+\subsection{Option hintaan vaikuttavat tekijät (essee) (engl. factors affecting option prices)}
+
+\subsection{Put-call pariteetti (essee) (engl. put-call-parity)}
+
+Put-call pariteetti kuvaa osakkeen, velkakirjan, osto-option ja myyntioption välistä suhdetta. Näiden välineiden välillä voidaan vakuuttaa sijoitus osakkeen arvon laskulta.
+
+Voidaan ostaa osakkeita ja myyntioptioita, jolloin myyntioptio suojaa osakkeen hinnan laskulta. Jos osakkeen hinta laskee, voidaan myyntioption turvin osake kuitenkin myydä sovitulla hinnalla.
+
+Voidaan ostaa velkakirjoja ja osto-optioita. Tällöin optio voidaan jättää käyttämättä, jos osakkeen hinta ei nouse olletetusti. 
+
+\subsection{Täydelliset markkinat (engl. perfect capital markets)}
+
+Sijoittajat ja yritykset voivat käydä kauppaa samoilla arvopapereilla. Markkinahinta perustuu tulevien rahavirtojen nykyarvoon.
+
+Ei veroja tai transaktiokustannuksia
+
+Yrityksen rahoituspäätökset eivät vaikuta
+
+Rahoitustransaktoit eivät lisää/poista yrityksen arvoa, vaan jakavat riskin omistajien ja velkojien kesken
+
+\subsection{Omavaraisuusaste (engl. equity asset ratio)}
+
+\subsection{Omavasaisuusasteen vaikutus yrityksen arvoon}
+
+\subsection{Suuret institutionaaliset sijoittajat suosivat monikansallisia monitoimialayrityksiä, koska sijoitukset niihin ovat vain yhdellä toimialalla toimivia yrityksiä riskittömämpiä. (Totta vai tarua?)}
+
+\subsection{Keskimääräinen pääoman kustannus (WACC) (engl. weighted average cost of capital)}
+
+Oman pääoman tuottovaatimus $r_E$ saadaan laskettua CAP-mallilla.
+
+Vieraan pääoman tuottovaatimus $r_D$ koostuu luottoriskistä ja sen sellaisesta.
+
+Kun nämä tuottovaatimukset painotetaan oman pääoman ja vieraan pääoman määrällä, saadaan painotettu pääoman kustannus:
+
+\[
+r_{WACC} = \frac{E}{E + D} * r_E + \frac{D}{E + D} * r_D * (1 - \tau_c)
+\]
+
+Missä: 
+
+E = equity, D = debt
+
+$r_E$ = oman pääoman kustannus = \textbf{CAPM}, Capital Asset Pricing Model
+
+$r_D$ = vieraan pääoman kustannus = Luottoriski
+
+Huom! Laskuissa annetaan usein velan suhde omaan pääomaan (debt/equity ratio). Tästä voidaan laskea:
+
+\[
+\frac{E}{E + D} = \frac{1}{1 +r}
+\]
+
+\[
+\frac{D}{E + D} = \frac{r}{1 +r}
+\]
+
+Jos esim D/E ratio on 0.6, saadaan
+
+\[
+\frac{E}{E + D} = \frac{1}{1 + 0.6} = 0.625
+\]
+
+\[
+\frac{D}{E + D} = \frac{r}{1 +r} = 0.375
+\]
+
+\[
+    r_WACC = \frac{E}{E + D} \times r_E + \frac{E}{E + D}
+\]
+
+\subsection{Nettonykyarvo (Net present value, NPV)}
+
+NPV:llä voidaan laskea yksittäisen investointiprojektin kannattavuutta. Silloin lasketaan itse asiassa arvio \textbf{investoinnin aiheuttamasta muutoksesta yrityksen liiketoiminnan arvossa}. 
+
+\subsection{Kun projektin kannattavuutta arvioidaan NPV:n avulla, tulisi aina käyttää diskonttokorkona yrityksen keskimääräistä pääoman kustannusta (WACC) (Totta/tarua?)}
+
+\subsection{Modiglianin ja Millerin (MM) teoriat I ja II (taustat, teoriat, johtopäätökset)}
+
+MM I: Yrityksen pääomarakenteella ei vaikutusta yrityksen arvoon (eli laina on ilmaista!)
+
+
+
+\subsection{Markkinoiden heikon tehokkuuden olettamus (weak form market efficiency)}
+
+\subsection{Huomaat, että yrityksen johtajat tekevät suuria voittoja sijoittamalla oman yrityksensä osakkeisiin. Tämä on vastoin markkinoiden heikon tehokkuuden olettamusta (totta/tarua)}
+
+\subsection{Mitä enemmän osakkeen tuotto vaihtelee, sitä korkeampaa tuottoa sijoittajat odottavat (totta/tarua)}
+
+Osakkeen tuoton vaihtelua kuvaa osakkeen volatiliteetti, joka kuvaa osakkeen riskiä. Kun tuoton vaihtelu nousee, riski nousee myös. Sijoittajat vaativat korkeampaa tuottoa riskille.
+
+CAP-mallin avulla voidaan laskea yrityksen i tuottovaatimus:
+
+\[
+    r_i = r_f + \beta_i (r_f + E[R_Mkt])
+\]
+
+Beta saadaan laskettua volatiliteetin ja markkinoiden korrelaation suhteen. Koska korrelaatio ei tuoton heittelyn johdosta muutu, ainoa kasvava tekiä on volatiliteetti, jolloin beta kasvaa. Kun beta kasvaa CAP-mallin kaavasta voidaan huomata, että myös tuottovaatimus kasvaa.
+
+\subsection{Optio}
+
+Sopimus, jolla option omistajalla on oikeus (mutta ei velvollisuutta!) ostaa tai myydä sijoituksen sovitulla hinnalla. Sovittua hintaa kutsutaan termeillä \textbf{strike price} tai \textbf{exercise price}.
+
+Optio, on sopimus, joten siinä on aina kaksi osapuolta: option omistaja ja option writer (mikä suomeksi?). Option omistajalla on \textbf{long position}, mikä tarkoittaa oikeutta käyttää optiota. Myyjällä taas on \textbf{short position}, mikä tarkoittaa velvollisuutta toteuttaa kauppa option omistajan niin tahtoessa.
+
+Option myyjä saa tietysti rahaa, koska kantaa riskin hinnan kehityksestä. Tätä rahaa kutsutaan \textbf{option premiumiksi}.
+
+Optioita on kahdenlaisia: \textbf{amerikkalaisia} ja \textbf{eurooppalaisia}. Amerikkalainen optio on mahdollista ostaa/myydä minä päivänä tahansa määräajan sisällä, eurooppalainen optio vain sovittuna päivänä.
+
+
+
+\subsection{Osto-optio (Call)}
+
+Option omistajalla on oikeus \textbf{ostaa} sijoituksia.
+
+Osto-optiota ei kannata käyttää, jos osakkeen hinta $S$ on pienempi kuin sovittu hinta $K$. Täten saatu tuotto $C$ on:
+
+\[ C = max(S - K, 0) \]
+
+\subsection{Myyntioptio (Put)}
+
+Option omistajalla on oikeus \textbf{myydä} sijoituksia.
+
+Myynti-optiota ei kannata käyttää, jos osakkeen hinta $S$ on suurempi kuin sovittu hinta $K$. Täten saatu tuotto $C$ on:
+
+\[ C = max(K - S, 0) \]
+
+\subsection{Osto-option myyminen on tuotoltaan identtinen myyntioption ostamisen kanssa}
+
+$P$ oston hinta
+
+$S$ osakkeen hinta
+
+$C$ Call/put price
+
+\[
+\begin{array}{lccl}
+ & S < C & S > C & P \\
+Sell\ Call & 0 & C - S & P \\
+Total & P & C - S + P & \\
+Buy\ Put & C - S & 0 & -P \\
+Total & C - S - P & -P & \\
+\end{array}
+\]
+
+\subsection{Oman pääoman kustannus (cost of equity)}
+
+Cost of equity = expected return = odotettu tuotto = oman pääoman kustannus = oman pääoman tuottovaatimus
+
+\subsection{Osakkeiden takaisinosto (repurchase stock)}
+
+\subsection{Markkinaportfolion keskihajonta (market portfolio standerd deviation)}
+
+Jos tiedetään sijoituksen i korrelaatio markkinoiden kanssa, voidaan markkinaportfolion keskihajonnasta laskea sijoituksen beta markkinaportfolioon nähden
+
+\[
+    \beta_i = \frac{SD(R_i) \times Corr(R_i, R_Mkt)}{SD(R_Mkt)}
+\]
+
+\subsection{Markkinaportfolion riskipreemio on 8\% ja keskihajonta 22\%. Mikä on sellaisen portfolion riskipreemio, jonka sijoituksista 25\% on kiinni Onkia Oy:n osakkeissa ja 75\% Edll Oy:n osakkeissa? Onkian beta on 1,1 ja Edll:n 1,25}
+
+Jos tiedetään portfolion beta ja markkinaportfolion riskipreemio, voidaan todeta:
+
+\[
+    RiskPremium_Mkt = E[R_Mkt] - r_f
+\]
+\[
+    RiskPremium_P = \beta_P (E[R_Mkt] - r_f)
+\]
+
+\subsection{Vapaa kassavirta (Free cash flow FCF)}
+
+Yrityksen liiketoiminta synnyttää vapaata rahavirtaa.
+
+Vapaa kassavirta lasketaan
+
+\[
+\begin{array}{lcl}
+Free\ Cash\ Flow & = & Unlevered\ Net\ Income \\
+ & & + Deprication \\
+ & & - Capital\ Expenditures \\
+ & & - Increase\ in\ Net\ Working\ Capital \\
+\end{array}
+\]
+
+\[Unlevered\ Net\ Income = EBIT - Intrests - Taxes\]
+
+
+Missä: Deprication = verot, Capital expeditures = investoinni, Increase in Net Working Capital = Nettopääoman kasvu
+
+Vapaa rahavirta määrittää liiketoiminnan arvon.
+
+\[
+V_0 = \frac{FCF_1}{1 + r_{wacc}} + \frac{FCF_2}{(1 + r_{wacc})^2} + \dots + \frac{FCF_N}{(1 + r)^N} + \frac{V_N}{(1 + r_{wacc})^N}
+\]
+
+\subsection{Nettopääoman (Net working capital)}
+
+Nettopääoman kasvu
+
+\[ \Delta NWC_t = NWC_t - NWC_{t-1} \]
+
+\[
+\begin{array}{lcl}
+Net\ Working\ Capital & = & Current\ Assets + Current\ Liabilities \\
+ & = & Cash + Inventory + Receivables - Payables \\
+\end{array}
+\]
+
+Missä: Inventory = Vaihto-omaisuus, Receivables = Lyhytaikaiset saamiset, Payables = Lyhytaikaiset velat
+
+\subsection{APV-menetelmä (Adjusted Present Value method)}
+
+Sopii tilanteisiin, joissa investoinnin rahoitusrakenne on erillainen kuin yrityksen (eli WACC ei käy)
+
+\[ V^L = APV = V^U + PV(Interest\ Tax\ Shield) \]
+
+\subsection{Acquisition?}
+
+% \section{Tentti 2009_03}
+
+\subsection{Odotettu tuotto (expected return)}
+
+Odotettu tuotto voidaan laskea eri tuotto-odotusten ja niiden toteutumisen todennäköisyyksien tulojen summasta.
+
+Esimerkki: Yrityksen arvo on 120e. Vuoden päästä arvo on 100e 40\% tn:llä ja 170e 60\% tn:llä
+
+Tästä saadaan: Vuoden päästä tuotto on 40\% tn:llä -16.67\% ja 70.59\% tn:llä 60\%
+
+Odotettu tuotto (expected (mean) return):
+
+\[
+E[R] = \sum_R{p_R \times R}
+\]
+
+Missä:
+
+$p_R$ \quad Todennäköisyys
+$R$ \quad Todennäköisyyttä vastaava tuotto-odotus
+
+Tästä saadaan:
+
+\[
+E[R] = 0.4 \times -16.67\% + 0.6 \times 70.59\% = 49.02%
+\]
+
+Odotetun tuoton avulla voidaan laskea varianssi ja keskihajonta eli volatiliteetti.
+
+\subsection{Volatiliteetti, keskihajonta (standard deviation)}
+
+Varianssin laskeminen odotetun keskimääräisen tuoton avulla.
+
+Esimerkki: Yrityksen arvo on 120e. Vuoden päästä arvo on 100e 40\% tn:llä ja 170e 60\% tn:llä (, jolloin odotettu tuotto on 49.02%)
+
+Tästä saadaan: Vuoden päästä tuotto on 40\% tn:llä -16.67\% ja 70.59\% tn:llä 60\%
+
+\[
+Var(R) = E[(R - E[R])^2] = \sum_R{p_R \times (R - E[R])^2}
+\]
+
+Kaavassa $R - E[R]$ on poikkeama keskimääräisestä tuotosta
+
+Esimerkkiyritykselle saadaan tällöin
+
+\[
+Var(R) = 40\% \times (49.02\% + 16.67\%)^2 + 60\% \times (49.02\% - 70.59\%)^2 = 0.03059
+\]
+
+Volatiliteetti, eli keskihajonta (standard deviation) on varianssin neliö:
+
+Volatility = Standard Deviation = $\sqrt{Variance}$
+
+Tällöin voidaan laskea esimerkille volatiliteetti
+
+\[
+SD(R) = \sqrt{Var(R)} = \sqrt{0.03059} = 17.49\%
+\]
+
+\subsection{Kovarianssi (Covariance)}
+
+Kovarianssin pystyy laskemaan esim. historiatiedoista, perustuen voittojen ja keskimääräisen voiton erotukseen.
+
+(Hankalahko kaava, tuskin tarvii opetella)
+
+Positiivinen kovarianssi: Osakkeet liikkuvat samaan suuntaan
+
+Negatiivinen kovarianssi: Osakkeet liikkuvat vastakkaiseen suuntaan
+
+\subsection{Korrelaatio (correlation)}
+
+Kovarianssin kertaluokkaa on vaikea tulkita. Korrelaatio vastaa tähän kysymykseen tarjoamalla samanlaisen tiedon välillä [-1,1], jolloin vertailu on helpompaa.
+
+\[
+    Corr(R_i, R_j) = \frac{Cov(R_i, R_j)}{SD(R_i) SD(R_j)}
+\]
+
+Korrelaatio -1 : Täysin negatiivinen korrelaatio, osakkeet liikkuvat täysin eri suuntaan
+
+Korrelaatio +1 : Täysin positiivinen korrelaatio, osakkeet liikkuvat täysin samaan suuntaan
+
+Osakkeiden korrelaatio ei vaikuta portfolion odotettuun tuottoon. Sen sijaan portfolion volatiliteettiin vaikuttaa osakkeiden korrelaatio.
+
+Teoria: Jos löydettäisiin kahden osakkeen portfolio, joilla olisi täysin negatiivinen portfolio, olisi portfolio riskitön. Selitys: toisen voitot kumoavat toisen tappiot ja päinvastoin.
+
+Kaavan pyörittelyä:
+
+Kovarianssi osakkeen itsensä kanssa:
+\[
+\begin{array}{lcl}
+Cov(R_s, R_s) & = & E[(R_s - E[R_s])(R_s - E[R_s])] = E[(R_s - E[R_s])^2] \\
+ & = & Var(R_s)
+\end{array}
+\]
+
+Edellisestä saadaan:
+\[
+Corr(R_s, R_s) = \frac{Cov(R_s, R_s)}{SD(R_s) SD(R_s)} = \frac{Var(R_s)}{SD(R_s)^2} = 1
+\]
+
+\subsection{Olet investoinut Coda rahastoon, jolla on 11\% odotettu tuotto ja 20\% volatiliteetti. Pohdit pitäisikö sinun lisätä Venture rahastoa omaan sijoitusportfolioosi. Venture rahaston odotettu tuotto on 19\%, volatiliteetti 60\% ja korrelaatio 0,25 Cofa rahaston kanssa. Laske annettujen tiedon perusteella kannattaako Venture rahastoa lisätä omaan sijoitusportfolioosi. Riskitön korkokanta on 3\%}
+
+\subsection{Pääomarakenteen vaikutus yrityksen arvoon (täydellisillä markkinoilla) (how capital structure affects the value)}
+
+\subsection{Tyypillisimmät epätäydellisyydet ja vaikutukset (suorat ja epäsuorat) pääomarakenteeseen ja arvoon
+(the most common imperfections)}
+
+\subsection{Laske eurooppalaisen osto-option hinta kun lunastushinta eli toteutushinta on X (The price of European call option having an exercie price of X)}
+
+\subsection{Yhtiövero (corporate tax rate)}
+
+Vero, joka yhtiöltä viedään tehdystä voitosta korkojen maksun jälkeen.
+
+\subsection{Velaton pääoman kustannus (unlevered cost of capital)}
+
+\subsection{Yrityksen arvo ilman velkaa (value without leverage)}
+
+\subsection{Yrityksen arvo velan kanssa (value with leverage)}
+
+% \section{Tentti 2007_03}
+
+\subsection{Yrityksen arvo tänään (Company's value today)}
+
+\subsection{Payout ratio}
+
+\subsection{Security market line}
+
+\subsection{Markkinaportfolio}
+
+\subsection{Markkinariski}
+
+\subsection{Efficient portfolios}
+
+Portfolio, jonka yksittäisten osakkeiden yhtiökohtaiset riskit on minimoitu hajauttamalla. Tehokas portfolio sisältää vain markkinoiden systemaattista riskiä.
+
+Markkinaportfoliota voidaan pitää tehokkaana portfoliona.
+
+Vastakohtaisesti epätehokas (inefficient) portfolio on sellainen, jolla on sama volatiliteetti (riski) mutta parempi tuotto.
+
+"Portfolio on tehokas jos ja vain jos odotettu tuotto kaikille sijoituksille on yhtä suuri kuin vaadittu tuotto"
+
+\subsection{Lyhyeksi myynti (Short sale)}
+
+Osake, jota ei oikeasti omisteta "myydään" tänään ja sitoudutaan ostamaan tulevaisuudessa "takaisin".
+
+Laskuissa voidaan ajatella, että short sale on negatiivinen investointi yritykseen.
+
+Esimerkki: Ostetaan 20ke Coca-Colaa ja lyhyeksi myydään 10ke Inteliä. 
+
+\[
+\begin{array}{lcl}
+    CocaColan\ arvo & = & 20ke \\
+    Intelin\ arvo & = & -10ke. \\
+    Portfolion\ arvo & = & 10ke
+\end{array}
+\]
+
+Osakkeiden painot portfoliossa
+\[
+\begin{array}{lcl}
+    x_C & = & \frac{20}{10} = 200\% \\
+    x_I & = & \frac{-10}{10} = -100\% \\
+\end{array}
+\]
+
+\subsection{Tehokas rintama (efficient frontier)}
+
+Tehokkain tuotto/riski suhde portfolioista. Ks. kirjan kuva s. 348
+
+\subsection{Shape ratio}
+
+Portfolion ja riskivapaan pisteen välille vedetyn viivan kulma.
+
+\[
+    Shape\ Ratio = \frac{Portfolio\ Excess\ Return}{Portfolio\ Volatility} = \frac{E[R_p] - r_f}{SD(R_p)}
+\]
+
+Mittaa palkkio/volatiliteetti suhdetta. Korkeampi shape on parempi.
+
+\subsection{Tangenttiportfolio}
+
+Riskivapaan sijoituksen ja portfolion tehokkaan rintaman välille piirretyn viivan leikkauspiste. Tangenttiportfoliolla on korkein mahdollinen shape ja se on paras mahdollinen riskipitoisista osakkeista koostuva portfolio.
+
+Tangenttiportfolion edessä olevat portfoliomahdollisuudet sisältävät riskivapaita sijoituksia. Ne ovat optimaalisia portfolioita pienemmällä riskillä ja pienemmällä tuotolla. Tangenttiportfolion jälkeen oleviin kohteisiin voi sijoittaa lainalla. Suhteellinen riski (tuotto/riski) pysyy samana.
+
+\subsection{Risk-free interest rate}
+
+Korko, jonka saa riskivapaista sijoituksista (esim. valtion lainoista)
+
+\subsection{Standard deviation of return}
+
+\subsection{Expected return}
+
+Tuotto-odotus, jota odotetaan sijoituskohteelta. Huom! Excess return on eriasia. Se on tuotto-odotus - riskitön.
+
+\subsection{Pääoman rakenteen vaikutuksista täydellisillä ja epätäydellisillä markkinoilla}
+
+\subsection{Hinta joko nousee tai laskee (miten vaikuttaa laskuissa?)}
+
+% \section{Tentti 2005_05}
+
+\subsection{MM I proposition}
+
+\subsection{OTC market}
+
+\subsection{Korkojen verosuoja (Tax shield)}
+
+Lainojen korot maksetaan ennen veroa, joten korot vähentävät veromaksuja lisäen samalla lainan antajien hyötyä.
+
+\[ Verosuoja = Korot \times Veroprosentti \]
+
+Verosuojasta voidaan arvioida myös nykyarvo
+
+Jos yritys pitää velkojen määrän vakiona D
+
+\[ PV(Korkojen\ verosuoja) = Veroprosentti \times D \]
+
+Muulloin...
+
+\[ V^L = V^U + PV(Verosuoja) \]
+
+Ks. APV
+
+\subsection{Efektiivinen veroprosentti}
+
+Sijoittajan kannalta myös muut verot kuin yrityksen verotus vaikuttavat. Tällaisia veroja ovat osinkotulojen & myyntivoiton verotus ja korkotulojen verotus.
+
+\subsection{Agenssikustannukset/hyödyt}
+
+Omistajien ja velkojien eturistiriidat
+
+\subsection{Semi-strong market efficiency}
+
+\subsection{Pääoman markkina-arvo (market value of outstanding equity)}
+
+Arvo, jonka markkinat ovat valmiita maksamaan yrityksen omistamasta pääomasta (tehtaat, tuotantolaitteet ym.)
+
+Markkina-arvo on eriasia kuin kirja-arvo (book value). Kirja-arvo on arvo, jonka kirjanpitäjät ovat laskeneet yrityksen omistaman pääoman arvoksi.
+
+Huomaa suhde liiketoiminnan arvoon.
+
+\subsection{Liiketoiminnan arvo (Enterprise Value, EV)}
+
+Market Value of Equity = Market capitalization
+
+\[Enterprise Value = Market Value Of Equity + Debt - Cash\]
+
+Miksi velka on plussaa, käteinen miinusta? Liiketoiminnan arvoa voi ajatella summana, joka on maksettava, jos haluaa ostaa yrityksen kokonaisuudessaa itselleen.
+
+Esimerkki: Yritys omistaa 500ke arvoisen tehtaan, yrityksellä on lainaa 300ke ja 50ke käteistä. Paljonko pitää maksaa, jotta yrityksen saa ostettua itselleen?
+
+Vastaus: Käteisen voi käyttää suoraan lainan lyhentämiseen (lainaa jää 250ke). Tämän jälkeen omistajilta on ostettava tehdas ja velkojille maksettava velat (750ke)
+
+\subsection{Odotettu tuotto (expected rate of return)}
+
+\subsection{Option toteutushinta (exercise price)}
+
+\subsection{Option erääntymispäivä (maturity date)}
+
+\subsection{Tuottokäytä (payoff graph)}
+
+\subsection{Voittokäyrä (profit graph)}
+
+\subsection{Jos kohdeosakkeen beta on positiivinen, onko tämän portfolion beta positiivinen vai negatiivinen?}
+
+\subsection{Ulosmaksusuhde (pay-out ratio)}
+
+\subsection{Mitä suurempi yrityksen ulosmaksusuhde on, sitä parempi se on yrityksen osakkeenomistajille (totta/tarua?)}
+
+\subsection{Varrantti (Warrant)}
+
+\subsection{Varrantti antaa omistajilleen mahdollisuuden vaihtaa jokaisen velkakirjan ennalta määrättyyn määrään osakkeita (totta/tarua?)}
+
+\subsection{Salkunhoitaja Miettinen on hankkimassa uusia osakkeita salkkuunsa. Hän analysoi GWB yritystä ja antaa sille arvosanan 3. Markkinoiden yksimielinen arvio taas on 2. Näin ollen Miettisen ei kannata ostaa yrityksen osakkeita.}
+
+\subsection{Vaikutus osto-option arvoon?}
+a) Osakkeen hinta nousee (stock price rises)
+b) Korko nousee (interest rate rises)
+c) Erääntymisaika kasvaa (time to maturity becomes larger)
+d) Osakkeen volatiliteetti kasvaa (stock's volatility increases)
+
+\subsection{Yield to maturity}
+
+Yhden vuoden riskitön laina:
+
+\[
+P_0 = \frac{c}{1 + y_rf} eli y = \frac{c}{P_0} - 1
+\]
+
+Missä: c on vuoden päästä luvattu suoritus ja y on vaadittu tuotto. Koska riskitön $y = y_rf$
+
+MITES MUUT KUIN YHDEN VUODEN?
+
+\subsection{Valtion obligaatio (Treasure bond)}
+
+\subsection{Obligaation korko (yield)}
+
+\subsection{Obligaation duraatio (duration)}
+
+\subsection{Obligaation volatiliteetti}
+
+% Muut
+
+\subsection{Yhden hinnan laki}
+
+Arbitraasin (riskittömän pikavoiton) mahdollisuus on lyhytikäinen.
+Esimerkki: kullan hinta on sama Lontoossa ja New Yorkissa
+
+\subsection{Nykyarvo (Present value)}
+
+\[
+PV = \frac{C}{(1 + r)^n}
+\]
+
+Missä: C = nykyarvo, r = tuottovaatimus
+
+Useampana ajanhetkenä toteutuvan rahavirran nykyarvo:
+
+\[
+PV = \frac{C_1}{(1 + r)} + \frac{C_1}{(1 + r)^2} + \dots + \frac{C_N}{(1 + r)^N} = \sum_{n=1}^{N} \frac{C_n}{(1 + r)^n}
+\]
+
+Ikuinen kasvava maksusuoritus
+
+\[
+PV (growing perpetuity) = \frac{C}{r - g}
+\]
+
+Missä: g = kasvuprosentti
+
+\subsection{Kuponkimaksu (coupons, coupon payments, CPN)}
+
+Joukkovelkakirjojen korkomaksu (jos maksetaan kerran vuodessa). $Kuponkikorko = Kuponkimaksu\ vuodessa / Nimellisarvo$
+
+Coupon payment CPN
+\[
+    CPN = \frac{Coupon\ rate \times FV}{Number\ of\ Coupon\ Payments\ per\ Year}
+\]
+
+\subsection{Laina-ajan päättymispäivä (maturity date)}
+
+\subsection{Velkakirjan nimellisarvo (face value, principal)}
+
+Velkakirjasta maksettava arvo velka-ajan päättyessä. (after n years, at maturity)
+
+\subsection{Yield to maturity}
+
+\subsection{Velkakirjan arvottaminen}
+
+\[
+    P = CPN \times \frac{1}{y} (1 - \frac{1}{(1 + y)^N}) + \frac{FV}{(1 + y)^N}
+\]
+
+Missä:
+
+P = Velkakirjan nykyarvo
+
+CPN = Kuponkimaksu
+
+y = Yield to Maturity
+
+N = Kuponkien maksumäärä, eli $Laina-aika\ vuosissa / Kuponkimaksujen\ määrä\ per\ vuosi$
+
+Kun kuponkikorko > YTM, velkakirjan hinta > nimellisarvo. Kun kuponkikorko < YTM, velkakirjan hinta < nimellisarvo.
+
+\subsection{Oman pääoman tuottovaatimus}
+
+a.k.a Oman pääoman kustannus.
+
+Paljonko oman pääoman odotetaan tuottavan? Lasketaan CAP-mallilla.
+
+\subsection{Vieraan pääoman tuottovaatimus}
+
+Millä hinnalla yritys saa vierasta pääomaa?
+
+CAP-mallia voitaisiin soveltaa, jos velan beta (debt beta) olisi tiedossa.
+
+Vieraan pääoman kustannus voidaan laskea myös Yield to Maturityn avulla (Ks.)
+
+\[
+    = Yield\ To\ Maturity - Prob(default) * Expected\ Loss\ Rate
+\]
+
+\subsection{P/E-luku}
+
+\[
+    P/E = \frac{Market\ Capitalization}{Net\ Income} = \frac{Share\ Price}{EPS}
+\]
+
+Market Capitalization: Yrityksen arvo
+
+Net Income: Tuotto (verot, korot ym maksettu)
+
+Share Price: Yhden osakkeen arvo
+
+EPS: Earnings-per-share, yhden osakkeen tuotto.
+
+Kaavan pyörittelyä: 
+\[
+    Market\ Capitalization = Share\ Price \times Number\ of\ Shares
+\]
+\[
+    EPS = \frac{Net\ Income}{Number\ of\ Shares} 
+\]
+
+\subsection{EBITDA}
+
+Earnings before Interest, Taxes, Depreciation and Amortization
+
+Koska poistot ja lyhennykset eivät ole käteisiä kuluja, EBITDA kuvaa paljonko yritys on "tienannut" vuoden aikana.
+
+\subsection{Velan ym. kuoletus, lyhennys (Amortization)}
+
+
+
+\subsection{CAPM, Capital Asset Pricing Model}
+
+CAPM tekee kolme oletusta:
+
+1) Sijoittajat voivat ostaa ja myydä osakkeita markkinahintaan (ilman trans. kustannuksia) sekä lainata ja sijoittaa riskittömällä tuotolla
+
+2) Sijoittajat valitsevat vain tehokkaita portfolioita ("rationaalinen sijoittaja")
+
+3) Sijoittajilla on samanlaiset odotukset volatiliteeteista, korrelaatioista ja odotusarvoista
+
+Oletuksista seuraa: Tangenttiportfolio on markkinaportfolio
+
+Tällä voidaan laskea oman pääoman kustannus.
+
+\[
+\begin{array}{lcl}
+E[R_i] & = & Risk-Free\ Interest\ Rate + Risk\ Premium \\
+ & = & r_f + \beta_i \times ( E [R_{Mkt} - r_f] )
+\end{array}
+\]
+
+Missä:
+
+$\beta$ = Tarkasteltavan sijoituskohteen (i) systemaattista riskiä kuvaava suure
+
+$( E [R_{Mkt} - r_f] )$ = Markkinaportfolion riskipreemio
+
+\subsection{Capital Market Line}
+
+Riskivapaan sijoituksen ja markkinaportfolion välille vedetty viiva. Markkinaportfolio on tangettiportfolio.
+
+\subsection{Security market line, SML}
+
+Riskivapaan sijoituksen (beta 0) ja markkinaportfolion (beta 1) välille piirretty viiva return/beta kuvaajalla. CAPM oletuksen mukaan kaikki sijoitukset sijoittuvat tälle viivalle.
+
+\subsection{Pääoman kustannus, Cost of Capital}
+
+Mitataan CAPM-mallin avulla. 
+
+Pääoman kustannus, eli pääomalta odotettava tuottovaatimus on yhtä kuin riskivapaatuotto + riskipreemio.
+
+\subsection{Jälkimarkkinat (secondary markets)}
+
+Esim. valtion velkakirjoja (bonds) voidaan myydä eteenpäin velan antamisen jälkeen. Velkakirjan edelleenmyymistä kutsutaan jälkimarkkinoiksi.
+
+\end{document}
