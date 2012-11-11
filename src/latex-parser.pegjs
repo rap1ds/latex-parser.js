@@ -20,6 +20,7 @@ SourceElements
 
 SourceElement
   = command:Command { return {command : command} }
+  / math:MathBlock { return {math : math} }
   / text:TextBlock { return {text : text} }
   
 SourceCharacter
@@ -38,13 +39,13 @@ TextCharacters
   }
 
 TextCharacter
-  = !("\\" / "%") char_:SourceCharacter { return char_; }
+  = !("\\" / "%" / "\\]" / "\$") char_:SourceCharacter { return char_; }
   / "\\LaTeX\\"
   / "\\\\"
   / "\\" sequence:EscapedCharacter
 
 EscapedCharacter
-  = ("\{" / "\}" / "\[" / "\]" / "\%")
+  = ("\{" / "\}" / "\%" / "\$")
   
 SingleLineComment
   = "%" (!LineTerminator SourceCharacter)*
@@ -64,7 +65,23 @@ Command
         column: column
       }
     }
-  
+
+MathBlock
+  = "\\[" mathChars:MultiLineMathCharacters? "\\]" { return mathChars }
+  / "\$" mathChars:SingleLineMathCharacters? "\$" { return mathChars }
+
+SingleLineMathCharacters
+  = chars:SingleLineMathCharacter+ { return chars.join(""); }
+
+MultiLineMathCharacter
+  = !("\\]") char_:SourceCharacter { return char_; }
+
+MultiLineMathCharacters
+  = chars:MultiLineMathCharacter+ { return chars.join(""); }
+
+SingleLineMathCharacter
+  = !("\$") char_:SourceCharacter {return char_; }
+
 CommandArgument
   = "\[" squareArg:SquareCharacters? "\]" { return "[" + squareArg + "]" }
   / "\{" curlyArg:CurlyCharacters? "\}" { return "{" + curlyArg + "}" }
@@ -77,7 +94,6 @@ SquareCharacters
   
 SquareCharacter
   = !("\]") char_:SourceCharacter { return char_; }
-  
 CurlyCharacters
   = chars:CurlyCharacter+ { return chars.join(""); }
   
