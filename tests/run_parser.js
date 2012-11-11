@@ -19,19 +19,25 @@ function readFile(filename) {
 }
 
 function parse(file) {
+  var start = Date.now();
   try {
     var result = parser.parse(file.data);
     file.result = {successful: true, value: result};
   } catch (e) {
     file.result = {successful: false, error: e};
   }
+  file.result.time = Date.now() - start;
   return file;
+}
+
+function printFileAndTime(file) {
+  console.log('File: ' + file.filename + ' (' + file.result.time + 'ms)');
 }
 
 function printSuccess(verbose) {
   return function(file) {
-    console.log('File: ' + file.filename);
-    console.log('Successfully parsed'.green);
+   printFileAndTime(file);
+   console.log('Successfully parsed'.green);
     if(verbose) {
       console.log(JSON.stringify(file.result.value, null, 2));
     }
@@ -40,7 +46,7 @@ function printSuccess(verbose) {
 }
 
 function printError(file) {
-  console.log('File: ' + file.filename);
+  printFileAndTime(file);
   console.log(('Error in line ' + file.result.error.line + ':' + file.result.error.column + '').red);
   console.log(file.result.error.message);
   console.log();
