@@ -479,6 +479,17 @@ module.exports = (function(){
                   matchFailed("\"]\"");
                 }
               }
+              if (result0 === null) {
+                if (input.charCodeAt(pos.offset) === 37) {
+                  result0 = "%";
+                  advance(pos, 1);
+                } else {
+                  result0 = null;
+                  if (reportFailures === 0) {
+                    matchFailed("\"%\"");
+                  }
+                }
+              }
             }
           }
         }
