@@ -1,0 +1,15 @@
+if (typeof define !== 'function') {
+  var define;
+  if(typeof module !== 'undefined') {
+    define = require('amdefine')(module);
+  } else {
+    define = function(moduleDefinition) {
+      window.LatexParser = moduleDefinition();
+    }
+  }
+}
+
+define('latex-parser', function() {
+    return <%= parser %>
+});
+
