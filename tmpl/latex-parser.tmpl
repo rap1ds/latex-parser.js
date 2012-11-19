@@ -1,6 +1,6 @@
-(function() {
+(function(global) {
+  var define = global.define;
   if (typeof define !== 'function') {
-    var define;
     if(typeof module !== 'undefined') {
       define = function(ignoreModuleName, moduleDefinitionFn) {
         require('amdefine')(module)(moduleDefinitionFn);
@@ -15,5 +15,5 @@
   define('latex-parser', function() {
     return <%= parser %>
   });
-})();
+})(this);
 
