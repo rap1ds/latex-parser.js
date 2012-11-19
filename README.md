@@ -1,10 +1,17 @@
 latex-parser.js
 ===============
 
-Usage:
+Use:
+
+Build:
 
 ```
-$ npm install -g pegjs
+$ npm install
 $ grunt build
-$ node tests/run_parser.js tests/dippa.tex
+```
+
+Test:
+
+```
+$ grunt test
 ```

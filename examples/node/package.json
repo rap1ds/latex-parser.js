@@ -1,0 +1,9 @@
+{
+  "name" : "latex-parser-example",
+  "version" : "0.0.1",
+  "description" : "Example how to use latex-parser.js",
+  "author": "Mikko Koski",
+  "dependencies": {
+    "latex-parser": "git://github.com/rap1ds/latex-parser.js.git"
+  }
+}

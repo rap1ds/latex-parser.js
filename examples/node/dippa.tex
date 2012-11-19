@@ -1,0 +1,745 @@
+% Lines 
+% starting with a percent sign are (%) comments. LaTeX will
+% not process those lines. Similarly, everything after a percent 
+% sign in a line is considered a comment. To produce a percent sign
+% in the output, write \% (backslash followed by the percent sign). 
+% ==================================================================
+% Usage instructions:
+% ------------------------------------------------------------------
+% The file is heavily commented so that you know what the various
+% commands do. Feel free to remove any comments you don't need from
+% your own copy. When redistributing the example thesis file, please
+% retain all the comments for the benefit of other thesis writers! 
+% ==================================================================
+% Compilation instructions: 
+% ------------------------------------------------------------------
+% Use pdflatex to compile! Input images are expected as PDF files.
+% Example compilation:
+% ------------------------------------------------------------------
+% > pdflatex thesis-example.tex
+% > bibtex thesis-example
+% > pdflatex thesis-example.tex
+% > pdflatex thesis-example.tex
+% ------------------------------------------------------------------
+% You need to run pdflatex multiple times so that all the cross-references
+% are fixed. pdflatex will tell you if you need to re-run it (a warning
+% will be issued)  
+% ------------------------------------------------------------------
+% Compilation has been tested to work in ukk.cs.hut.fi and kosh.hut.fi
+% - if you have problems of missing .sty -files, then the local LaTeX
+% environment does not have all the required packages installed.
+% For example, when compiling in vipunen.hut.fi, you get an error that
+% tikz.sty is missing - in this case you must either compile somewhere
+% else, or you cannot use TikZ graphics in your thesis and must therefore
+% remove or comment out the tikz package and all the tikz definitions. 
+% ------------------------------------------------------------------
+
+% General information
+% ==================================================================
+% Package documentation:
+% 
+% The comments often refer to package documentation. (Almost) all LaTeX
+% packages have documentation accompanying them, so you can read the
+% package documentation for further information. When a package 'xxx' is
+% installed to your local LaTeX environment (the document compiles
+% when you have \usepackage{xxx} and LaTeX does not complain), you can 
+% find the documentation somewhere in the local LaTeX texmf directory
+% hierarchy. In ukk.cs.hut.fi, this is /usr/texlive/2008/texmf-dist,
+% and the documentation for the titlesec package (for example) can be 
+% found at /usr/texlive/2008/texmf-dist/doc/latex/titlesec/titlesec.pdf.
+% Most often the documentation is located as a PDF file in 
+% /usr/texlive/2008/texmf-dist/doc/latex/xxx, where xxx is the package name; 
+% however, documentation for TikZ is in
+% /usr/texlive/2008/texmf-dist/doc/latex/generic/pgf/pgfmanual.pdf
+% (this is because TikZ is a front-end for PGF, which is meant to be a 
+% generic portable graphics format for LaTeX).
+% You can try to look for the package manual using the ``find'' shell
+% command in Linux machines; the find databases are up-to-date at least
+% in ukk.cs.hut.fi. Just type ``find xxx'', where xxx is the package
+% name, and you should find a documentation file.
+% Note that in some packages, the documentation is in the DVI file
+% format. In this case, you can copy the DVI file to your home directory,
+% and convert it to PDF with the dvipdfm command (or you can read the
+% DVI file directly with a DVI viewer).
+% 
+% If you can't find the documentation for a package, just try Googling
+% for ``latex packagename''; most often you can get a direct link to the
+% package manual in PDF format.
+% ------------------------------------------------------------------
+
+
+% Document class for the thesis is report
+% ------------------------------------------------------------------
+% You can change this but do so at your own risk - it may break other things.
+% Note that the option pdftext is used for pdflatex; there is no
+% pdflatex option. 
+% ------------------------------------------------------------------
+\documentclass[12pt,a4paper,oneside,pdftex]
+
+% The input files (tex files) are encoded with the latin-1 encoding 
+% (ISO-8859-1 works). Change the latin1-option if you use UTF8 
+% (at some point LaTeX did not work with UTF8, but I'm not sure
+% what the current situation is) 
+\usepackage[utf8]{inputenc}
+% OT1 font encoding seems to work better than T1. Check the rendered
+% PDF file to see if the fonts are encoded properly as vectors (instead
+% of rendered bitmaps). You can do this by zooming very close to any letter 
+% - if the letter is shown pixelated, you should change this setting 
+% (try commenting out the entire line, for example).  
+% \usepackage[OT1]{fontenc}
+% The babel package provides hyphenating instructions for LaTeX. Give
+% the languages you wish to use in your thesis as options to the babel
+% package (as shown below). You can remove any language you are not
+% going to use.
+% Examples of valid language codes: english (or USenglish), british, 
+% finnish, swedish; and so on.
+\usepackage[finnish,swedish,english]{babel}
+
+
+% Font selection
+% ------------------------------------------------------------------
+% The default LaTeX font is a very good font for rendering your 
+% thesis. It is a very professional font, which will always be 
+% accepted. 
+% If you, however, wish to spicen up your thesis, you can try out
+% these font variants by uncommenting one of the following lines
+% (or by finding another font package). The fonts shown here are 
+% all fonts that you could use in your thesis (not too silly). 
+% Changing the font causes the layouts to shift a bit; you many
+% need to manually adjust some layouts. Check the warning messages
+% LaTeX gives you.
+% ------------------------------------------------------------------
+% To find another font, check out the font catalogue from
+% http://www.tug.dk/FontCatalogue/mathfonts.html
+% This link points to the list of fonts that support maths, but
+% that's a fairly important point for master's theses.
+% ------------------------------------------------------------------
+% <rant>
+% Remember, there is no excuse to use Comic Sans, ever, in any
+% situation! (Well, maybe in speech bubbles in comics, but there 
+% are better options for those too)
+% </rant>
+
+% \usepackage{palatino}
+% \usepackage{tgpagella}
+
+
+
+% Optional packages
+% ------------------------------------------------------------------
+% Select those packages that you need for your thesis. You may delete
+% or comment the rest.
+
+% Natbib allows you to select the format of the bibliography references.
+% The first example uses numbered citations: 
+\usepackage[square,sort&compress,numbers]{natbib}
+% The second example uses author-year citations.
+% If you use author-year citations, change the bibliography style (below); 
+% acm style does not work with author-year citations.
+% Also, you should use \citet (cite in text) when you wish to refer
+% to the author directly (\citet{blaablaa} said blaa blaa), and 
+% \citep when you wish to refer similarly than with numbered citations
+% (It has been said that blaa blaa~\citep{blaablaa}).
+% \usepackage[square]{natbib}
+
+% The alltt package provides an all-teletype environment that acts
+% like verbatim but you can use LaTeX commands in it. Uncomment if 
+% you want to use this environment. 
+% \usepackage{alltt}
+
+% The eurosym package provides a euro symbol. Use with \euro{}
+\usepackage{eurosym} 
+
+% Verbatim provides a standard teletype environment that renderes
+% the text exactly as written in the tex file. Useful for code
+% snippets (although you can also use the listings package to get
+% automatic code formatting). 
+\usepackage{verbatim}
+
+% The listing package provides automatic code formatting utilities
+% so that you can copy-paste code examples and have them rendered
+% nicely. See the package documentation for details.
+% \usepackage{listings}
+
+% The fancuvrb package provides fancier verbatim environments 
+% (you can, for example, put borders around the verbatim text area
+% and so on). See package for details.
+% \usepackage{fancyvrb}
+
+% Supertabular provides a tabular environment that can span multiple 
+% pages. 
+%\usepackage{supertabular}
+% Longtable provides a tabular environment that can span multiple 
+% pages. This is used in the example acronyms file. 
+\usepackage{longtable}
+
+% The fancyhdr package allows you to set your the page headers 
+% manually, and allows you to add separator lines and so on. 
+% Check the package documentation. 
+% \usepackage{fancyhdr}
+
+% Subfigure package allows you to use subfigures (i.e. many subfigures
+% within one figure environment). These can have different labels and
+% they are numbered automatically. Check the package documentation. 
+\usepackage{subfigure}
+
+% The titlesec package can be used to alter the look of the titles 
+% of sections, chapters, and so on. This example uses the ``medium'' 
+% package option which sets the titles to a medium size, making them
+% a bit smaller than what is the default. You can fine-tune the 
+% title fonts and sizes by using the package options. See the package
+% documentation.
+\usepackage[medium]{titlesec}
+
+% The TikZ package allows you to create professional technical figures.
+% The learning curve is quite steep, but it is definitely worth it if 
+% you wish to have really good-looking technical figures. 
+\usepackage{tikz}
+% You also need to specify which TikZ libraries you use
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathmorphing,decorations.markings}
+\usetikzlibrary{shapes}
+\usetikzlibrary{patterns}
+
+
+% The aalto-thesis package provides typesetting instructions for the
+% standard master's thesis parts (abstracts, front page, and so on)
+% Load this package second-to-last, just before the hyperref package.
+% Options that you can use: 
+%   mydraft - renders the thesis in draft mode. 
+%             Do not use for the final version. 
+%   doublenumbering - [optional] number the first pages of the thesis
+%                     with roman numerals (i, ii, iii, ...); and start
+%                     arabic numbering (1, 2, 3, ...) only on the 
+%                     first page of the first chapter
+%   twoinstructors  - changes the title of instructors to plural form
+%   twosupervisors  - changes the title of supervisors to plural form
+\usepackage[mydraft,twosupervisors]{aalto-thesis}
+%\usepackage[mydraft,doublenumbering]{aalto-thesis}
+%\usepackage{aalto-thesis}
+
+
+% Hyperref
+% ------------------------------------------------------------------
+% Hyperref creates links from URLs, for references, and creates a
+% TOC in the PDF file.
+% This package must be the last one you include, because it has
+% compatibility issues with many other packages and it fixes
+% those issues when it is loaded.   
+\RequirePackage[pdftex]{hyperref}
+% Setup hyperref so that links are clickable but do not look 
+% different
+\hypersetup{colorlinks=false,raiselinks=false,breaklinks=true}
+\hypersetup{pdfborder={0 0 0}}
+\hypersetup{bookmarksnumbered=true}
+% The following line suggests the PDF reader that it should show the 
+% first level of bookmarks opened in the hierarchical bookmark view. 
+\hypersetup{bookmarksopen=true,bookmarksopenlevel=1}
+% Hyperref can also set up the PDF metadata fields. These are
+% set a bit later on, after the thesis setup.   
+
+
+% Thesis setup
+% ==================================================================
+% Change these to fit your own thesis.
+% \COMMAND always refers to the English version;
+% \FCOMMAND refers to the Finnish version; and
+% \SCOMMAND refers to the Swedish version.
+% You may comment/remove those language variants that you do not use
+% (but then you must not include the abstracts for that language)
+% ------------------------------------------------------------------
+% If you do not find the command for a text that is shown in the cover page or
+% in the abstract texts, check the aalto-thesis.sty file and locate the text
+% from there. 
+% All the texts are configured in language-specific blocks (lots of commands
+% that look like this: \renewcommand{\ATCITY}{Espoo}.
+% You can just fix the texts there. Just remember to check all the language
+% variants you use (they are all there in the same place). 
+% ------------------------------------------------------------------
+\newcommand{\TITLE}{Software Processes for Dummies:}
+\newcommand{\FTITLE}{Ohjelmistoprosessit mänteille:}
+\newcommand{\STITLE}{Den stora stygga vargen:}
+\newcommand{\SUBTITLE}{Re-inventing the Wheel}
+\newcommand{\FSUBTITLE}{Uusi organisaatio, uudet pyörät}
+\newcommand{\SSUBTITLE}{Lilla Vargens universum}
+\newcommand{\DATE}{June 18, 2011}
+\newcommand{\FDATE}{18. kesäkuuta 2011}
+\newcommand{\SDATE}{Den 18 Juni 2011}
+
+% Supervisors and instructors
+% ------------------------------------------------------------------
+% If you have two supervisors, write both names here, separate them with a 
+% double-backslash (see below for an example)
+% Also remember to add the package option ``twosupervisors'' or
+% ``twoinstructors'' to the aalto-thesis package so that the titles are in
+% plural.
+% Example of one supervisor:
+%\newcommand{\SUPERVISOR}{Professor Antti Ylä-Jääski}
+%\newcommand{\FSUPERVISOR}{Professori Antti Ylä-Jääski}
+%\newcommand{\SSUPERVISOR}{Professor Antti Ylä-Jääski}
+% Example of twosupervisors:
+\newcommand{\SUPERVISOR}{Professor Antti Ylä-Jääski\\
+  Professor Pekka Perustieteilijä}
+\newcommand{\FSUPERVISOR}{Professori Antti Ylä-Jääski\\
+  Professori Pekka Perustieteilijä}
+\newcommand{\SSUPERVISOR}{Professor Antti Ylä-Jääski\\
+  Professor Pekka Perustieteilijä}
+
+% If you have only one instructor, just write one name here
+\newcommand{\INSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.)}
+\newcommand{\FINSTRUCTOR}{Diplomi-insinööri Olli Ohjaaja}
+\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja}
+% If you have two instructors, separate them with \\ to create linefeeds
+% \newcommand{\INSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.)\\
+%  Elli Opas M.Sc. (Tech)}
+%\newcommand{\FINSTRUCTOR}{Diplomi-insinööri Olli Ohjaaja\\
+%  Diplomi-insinööri Elli Opas}
+%\newcommand{\SINSTRUCTOR}{Diplomingenjör Olli Ohjaaja\\
+%  Diplomingenjör Elli Opas}
+
+% If you have two supervisors, it is common to write the schools
+% of the supervisors in the cover page. If the following command is defined,
+% then the supervisor names shown here are printed in the cover page. Otherwise,
+% the supervisor names defined above are used.
+\newcommand{\COVERSUPERVISOR}{Professor Antti Ylä-Jääski, Aalto University\\
+  Professor Pekka Perustieteilijä, University of Helsinki}
+
+% The same option is for the instructors, if you have multiple instructors.
+% \newcommand{\COVERINSTRUCTOR}{Olli Ohjaaja M.Sc. (Tech.), Aalto University\\
+%  Elli Opas M.Sc. (Tech), Aalto SCI}
+
+
+% Other stuff
+% ------------------------------------------------------------------
+\newcommand{\PROFESSORSHIP}{Data Communication Software}
+\newcommand{\FPROFESSORSHIP}{Tietoliikenneohjelmistot}
+\newcommand{\SPROFESSORSHIP}{Datakommunikationsprogram}
+% Professorship code is the same in all languages
+\newcommand{\PROFCODE}{T-110}
+\newcommand{\KEYWORDS}{ocean, sea, marine, ocean mammal, marine mammal, whales,
+cetaceans, dolphins, porpoises}
+\newcommand{\FKEYWORDS}{AEL, aineistot, aitta, akustiikka, Alankomaat,
+aluerakentaminen, Anttolanhovi, Arcada, ArchiCad, arkki}
+\newcommand{\SKEYWORDS}{omsättning, kassaflöde, värdepappersmarknadslagen,
+yrkesutövare, intresseföretag, verifieringskedja}
+\newcommand{\LANGUAGE}{English}
+\newcommand{\FLANGUAGE}{Englanti}
+\newcommand{\SLANGUAGE}{Engelska}
+
+% Author is the same for all languages
+\newcommand{\AUTHOR}{Stella Student}
+
+
+% Currently the English versions are used for the PDF file metadata
+% Set the PDF title
+\hypersetup{pdftitle={\TITLE\ \SUBTITLE}}
+% Set the PDF author
+\hypersetup{pdfauthor={\AUTHOR}}
+% Set the PDF keywords
+\hypersetup{pdfkeywords={\KEYWORDS}}
+% Set the PDF subject
+\hypersetup{pdfsubject={Master's Thesis}}
+
+
+% Layout settings
+% ------------------------------------------------------------------
+
+% When you write in English, you should use the standard LaTeX 
+% paragraph formatting: paragraphs are indented, and there is no 
+% space between paragraphs.
+% When writing in Finnish, we often use no indentation in the
+% beginning of the paragraph, and there is some space between the 
+% paragraphs. 
+
+% If you write your thesis Finnish, uncomment these lines; if 
+% you write in English, leave these lines commented! 
+% \setlength{\parindent}{0pt}
+% \setlength{\parskip}{1ex}
+
+% Use this to control how much space there is between each line of text.
+% 1 is normal (no extra space), 1.3 is about one-half more space, and
+% 1.6 is about double line spacing.  
+% \linespread{1} % This is the default
+% \linespread{1.3}
+
+% Bibliography style
+% acm style gives you a basic reference style. It works only with numbered
+% references.
+\bibliographystyle{acm}
+% Plainnat is a plain style that works with both numbered and name citations.
+% \bibliographystyle{plainnat}
+
+
+% Extra hyphenation settings
+% ------------------------------------------------------------------
+% You can list here all the files that are not hyphenated correctly.
+% You can provide many \hyphenation commands and/or separate each word
+% with a space inside a single command. Put hyphens in the places where
+% a word can be hyphenated.
+% Note that (by default) LaTeX will not hyphenate words that already
+% have a hyphen in them (for example, if you write ``structure-modification 
+% operation'', the word structure-modification will never be hyphenated).
+% You need a special package to hyphenate those words.
+\hyphenation{di-gi-taa-li-sta yksi-suun-tai-sta}
+
+
+
+% The preamble ends here, and the document begins. 
+% Place all formatting commands and such before this line.
+% ------------------------------------------------------------------
+\begin{document}
+% This command adds a PDF bookmark to the cover page. You may leave
+% it out if you don't like it...
+\pdfbookmark[0]{Cover page}{bookmark.0.cover}
+% This command is defined in aalto-thesis.sty. It controls the page 
+% numbering based on whether the doublenumbering option is specified
+\startcoverpage
+
+% Cover page
+% ------------------------------------------------------------------
+% Options: finnish, english, and swedish
+% These control in which language the cover-page information is shown
+\coverpage{english}
+
+
+% Abstracts
+% ------------------------------------------------------------------
+% Include an abstract in the language that the thesis is written in,
+% and if your native language is Finnish or Swedish, one in that language.
+
+% Abstract in English
+% ------------------------------------------------------------------
+\thesisabstract{english}{Agile software development methods are all about customer feedback. However, no research have been done about how to efficiently communication feedback from customer to developer. What are the communication media which result the highest communication performance for feedback communication?
+
+In this paper a theoretical approach was chosen to answer to the research question \textit{what are the most efficient communication media to give feedback?} Based on literature review two communication media theories were selected: Media Richness Theory and Media Synchronicity Theory. These theories were applied to feedback communication in software projects.
+
+The results were against the common wisdom that face-to-face is always the most suitable communication media. Instead, the two theories suggest that "leaner" media, such as emails should result a better communication perfomance. }
+
+\thesisabstract{finnish}{}
+
+% Abstract in Finnish
+% ------------------------------------------------------------------
+% \thesisabstract{finnish}{
+% Kivi on materiaali, joka muodostuu mineraaleista ja luokitellaan mineraalisisaltonsa mukaan.}
+
+% \thesisabstract{finnish}{
+% Kivi on materiaali, joka muodostuu mineraaleista ja luokitellaan
+% mineraalisisältönsä mukaan. Kivet luokitellaan yleensä ne muodostaneiden
+% prosessien mukaan magmakiviin, sedimenttikiviin ja metamorfisiin kiviin.
+% Magmakivet ovat muodostuneet kiteytyneestä magmasta, sedimenttikivet vanhempien
+% kivilajien rapautuessa ja muodostaessa iskostuneita yhdisteitä, metamorfiset
+% kivet taas kun magma- ja sedimenttikivet joutuvat syvällä maan kuoressa
+% lämpötilan ja kovan paineen alaiseksi.
+
+% Kivi on epäorgaaninen eli elottoman luonnon aine, mikä tarkoittaa ettei se
+% sisällä hiiltä tai muita elollisen orgaanisen luonnon aineita. Niinpä kivestä
+% tehdyt esineet säilyvät maaperässä tuhansien vuosien ajan mätänemättä. Kun
+% orgaaninen materiaali jättää jälkensä kiveen, tulos tunnetaan nimellä fossiili.
+
+% Suomen peruskallio on suurimmaksi osaksi graniittia, gneissiä ja
+% Kaakkois-Suomessa rapakiveä.
+
+% Kiveä käytetään teollisuudessa moniin eri tarkoituksiin, kuten keittiötasoihin.
+% Kivi on materiaalina kalliimpaa mutta kestävämpää kuin esimerkiksi puu.}
+
+% Abstract in Swedish
+% ------------------------------------------------------------------
+% \thesisabstract{swedish}{
+% Lilla Vargens universum är det tredje fiktiva universumet inom huvudfåran av de
+% tecknade disneyserierna - de övriga två är Kalle Ankas och Musse Piggs
+% universum. Figurerna runt Lilla Vargen kommer huvudsakligen från tre källor ---
+% dels persongalleriet i kortfilmen Tre små grisar från 1933 och dess uppföljare,
+% dels långfilmen Sången om Södern från 1946, och dels från episoden ``Bongo'' i
+% långfilmen Pank och fågelfri från 1947. Framför allt de två första har
+% sedermera även kommit att leva vidare, utvidgas och införlivas i varandra genom
+% tecknade serier, främst sådana producerade av Western Publishing för
+% amerikanska Disneytidningar under åren 1945--1984. 
+
+% Världen runt Lilla Vargen är, i jämförelse med den runt Kalle Anka eller Musse
+% Pigg, inte helt enhetlig, vilket bland annat märks i Bror Björns skiftande
+% personlighet. Den har även varit betydligt mer öppen för influenser från andra
+% Disneyvärldar, inte minst de tecknade långfilmerna. Ytterligare en skillnad är
+% att varelserna i vargserierna förefaller stå närmare sina förebilder inom den
+% verkliga djurvärlden. Att vargen Zeke vill äta upp grisen Bror Duktig är till
+% exempel ett ständigt återkommande tema, men om katten Svarte Petter skulle få
+% för sig att äta upp musen Musse Pigg skulle detta antagligen höja ett och annat
+% ögonbryn bland läsarna.}
+
+
+% Acknowledgements
+% ------------------------------------------------------------------
+% Select the language you use in your acknowledgements
+\selectlanguage{english}
+
+% Uncomment this line if you wish acknoledgements to appear in the 
+% table of contents
+%\addcontentsline{toc}{chapter}{Acknowledgements}
+
+% The star means that the chapter isn't numbered and does not 
+% show up in the TOC
+\chapter*{
+Acknowledgements}
+
+I wish to thank all students who use \LaTeX\ for formatting their theses,
+because theses formatted with \LaTeX\ are just so nice.
+
+Thank you, and keep up the good work!
+\vskip 10mm
+
+\noindent Espoo, \DATE
+\vskip 5mm
+\noindent\AUTHOR
+
+% Acronyms
+% ------------------------------------------------------------------
+% Use \cleardoublepage so that IF two-sided printing is used 
+% (which is not often for masters theses), then the pages will still
+% start correctly on the right-hand side.
+\cleardoublepage
+% Example acronyms are placed in a separate file, acronyms.tex
+% \input{acronyms}
+
+\addcontentsline{toc}{chapter}{Abbreviations and Acronyms}
+\chapter*{Abbreviations and Acronyms}
+
+% The longtable environment should break the table properly to multiple pages, 
+% if needed
+
+\noindent
+\begin{longtable}{@{}p{0.25\textwidth}p{0.7\textwidth}@{}}
+2k/4k/8k mode & COFDM operation modes \\
+3GPP & 3rd Generation Partnership Project \\ 
+ESP & Encapsulating Security Payload; An IPsec security protocol \\ 
+FLUTE  & The File Delivery over Unidirectional Transport protocol \\ 
+e.g.& for example (do not list here this kind of common acronymbs or abbreviations, but only those that are essential for understanding the content of your thesis. \\ 
+note & Note also, that this list is not compulsory, and should be omitted if you have only few abbreviations
+
+\end{longtable}
+
+
+% Table of contents
+% ------------------------------------------------------------------
+\cleardoublepage
+% This command adds a PDF bookmark that links to the contents.
+% You can use \addcontentsline{} as well, but that also adds contents
+% entry to the table of contents, which is kind of redundant.
+% The text ``Contents'' is shown in the PDF bookmark. 
+\pdfbookmark[0]{Contents}{bookmark.0.contents}
+\tableofcontents
+
+% List of tables
+% ------------------------------------------------------------------
+% You only need a list of tables for your thesis if you have very 
+% many tables. If you do, uncomment the following two lines.
+% \cleardoublepage
+% \listoftables
+
+% Table of figures
+% ------------------------------------------------------------------
+% You only need a list of figures for your thesis if you have very 
+% many figures. If you do, uncomment the following two lines.
+% \cleardoublepage
+% \listoffigures
+
+% The following label is used for counting the prelude pages
+\label{pages-prelude}
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%% The main content starts here %%%%%%%%%%%%%%%%%%%%%
+% ------------------------------------------------------------------
+% This command is defined in aalto-thesis.sty. It controls the page 
+% numbering based on whether the doublenumbering option is specified
+\startfirstchapter
+
+% Add headings to pages (the chapter title is shown)
+\pagestyle{headings}
+
+% The contents of the thesis are separated to their own files.
+% Edit the content in these files, rename them as necessary.
+% ------------------------------------------------------------------
+% \input{1introduction.tex}
+\chapter{Introduction}
+\label{chapter:intro}
+
+Since the rise of agile software development methods, efficient customer communication have been taken seriously in software projects. The agile methods emphasize intense communication between customer and development organization instead of exchanging documents. Communication plays a big role in software projects of today. In previous research it has been shown that lack of communication and customer involvement is one of the biggest challenges faced by Agile teams \cite{2010hoda}. 
+
+The Agile manifesto states in one of the twelve principles that "the most efficient and effective method of conveying information to and within a development team is face-to-face conversation." \cite{agilemanifesto} As a result the eXtreme Programming process demanded an onsite-customer \cite{2002wake}. However, this demand has later removed and replaced by a practice called Real Customer Involvement where the customer should be involved weekly \cite{2006korkala}.  Korkala et al. underline that because of the lack of Onsite-customer it is essential that communication and feedback mechanisms should receive special attention in agile development \cite{2006korkala}.
+
+A lot of research has been conducted about communication in software projects but not very many with the focus on feedback communication. I believe that customer communication in software projects is concept that includes different situations requiring interactions between the customer and the development team. For example the communication required while doing planning is very different from the communication required while the customer is giving feedback. Thus, it makes sense to do research on this very specific communication sector.
+
+Feedback is an important part of the communication because it enables customer to control the project and direct the development organization to the correct route. The lack of feedback or slow feedback cycle may result undesired outcomes.
+
+This paper focuses on customer feedback in agile software project. The research methods are theoretical based on the existing literature and studies. At the end of the paper a new feedback tool Hannotaatio is going to be introduced. Hannotaatio is a visual website feedback tool which allows customer to give visual feedback to the development organization.
+
+% Why is the customer feedback important?
+% Various 
+
+% Miksi Hannotaatio olisi hyvä työkalu?
+% Miksi asia on edes tärkeää?
+% Tärkeää koska ei ole on-site customeriä.
+
+\section{
+Definition of customer \{feedback\}
+}
+
+% Three phases of communication
+% Before-, mid-, end-communication
+
+Customer feedback is a part of communication between the customer and the development organization during the software project. To be able to give feedback the customer obviously has to have something (e.g. a design document or a piece of working software) from which she can give the feedback. Thus, the feedback communication can take place only after the development or design process has already started.
+
+Feedback can be given about various aspects of the project. Feedback can be given about working methods, project management, communication practices or the actual output of the effort the development team has conducted. The output of the work effort can be e.g. technical design of the product, a visual design of the product or a piece of working software. This paper concentrates on feedback about \textit{what} the team has done, not \textit{how} the team has done the work. The main focus is on feedback about the working piece of software the team has delivered.
+
+Feedback can be given from customer to developer or from developer to peer developer. This paper focuses on feedback from customer to developer. Since the context of the paper is in agile development, by customer we mean product owner.
+
+In agile software development the software project is divided into iterations. In each iteration, various communication phases occur at various stages of the iteration. According to Bhalerao these communication phases consist of primary, mid and end phases \cite{2010bhalerao}.
+
+Bhalerao states, that feedback involves in the end iteration. Primary phase communication deals with information gathering and happens in the early phase of the iteration. Mid-phase communication takes place after the initial task gathering and prioritization when the development team is implementing the iteration tasks. At this stage, technical communication is involved. \cite{2010bhalerao}
+
+In this paper I am not considering feedback to be given only in the end phase of iteration. In agile context, teams are encouraged to utilize continuous integration principle \cite{2002wake}. Continuous integration allows the customer to always have access to the latest version of the software or at least once per day if nightly builds are used instead. Thus, it is most likely that customer will give feedback to the team also in the mid phase of the iteration. This is also encouraged to provide a rapid feedback cycle.
+
+\section{Research methods}
+
+This paper investigates the communication between customer and the development organization having a focus on the feedback communication. The context is in agile software development. Strong emphasis is put in inspecting the different methods of feedback communication and investigating how these methods can be used effectively. The research question is: \textit{What are the most efficient communication media to give feedback?}
+
+The research methods used in this paper are theoretical based on existing theories and studies. A literature review was conducted around the subject of communication methods and media use.
+
+I selected two media communication theories in order to answer the research question. The two theories were Media Richness Theory (MRT) and Media Synchronicity Theory (MST). These two theories describe communication media capabilities and suitability for various situation, thus providing a good framework to answer what are the efficient communication media in case of feedback communication.
+
+The media richness theory was chosen because it is the most well-known and widely used theory about communication media \cite{1986daft}\cite{2006korkala}. However, media richness theory has faced some criticism and thus new theories have been created to fill the gaps in the media richness theory \cite{1999dennis}. The theory was introduced before the era of new media (email, videoconferences etc.) so I decided to include also another communication media theory in the research.
+
+The second theory chosen was media synchronicity theory which is derived from media richness theory. This theory was chosen because it is suitable to new communication media, which are in important position in today's communication media in software industry. The theory also describes in more detail the different capabilities of each communication media thus making it easier to evaluate capabilities of different media.
+
+Because of the criticism towards the media richness theory and because of the better applicability of media synchronicity theory to new media the emphasis in this paper is on media synchronicity theory.
+
+\section{Results}
+
+\subsection{
+Media richness \{theory\}
+}
+
+This is escaped commend \\commandName\{command\}
+
+Daft et. al. have proposed a theory of media richness \cite{1986daft}. Media richness theory (MRT) is well-known and widely used even though it has been criticized \cite{2006korkala} \cite{1999dennis}. 
+
+According to MRT different communication methods can be ranked based on their "richness". Daft et al. define the richness as the ability of information to change understanding within a time interval. The richness is derived from the capacity of immediate feedback, number of cues and channels utilized, personalization and language variety. Daft et al. list the following media classifications in order of decreasing richness: face-to-face communication, telephone, personal documents, impersonal written documents and numeric documents \cite{1986daft}. To this list Korkala et. al. have added videoconference and email among others \cite{2006korkala}. The richness of videoconference is between face-to-face and telephone while the richness of emails goes to same category as personal documents.
+
+Media richness theory utilizes concepts of uncertainty and equivocality. Uncertainty exists if information can be interpreted unambiguously but there is a lack of information. Equivocality exists when there are multiple and possibly conflicting interpretations although the amount of information is sufficient. As equivocality rises a greater amount of negotiations is required to reach a consensus on one interpretation. \cite{1999dennis}
+
+MRT argues that certain communication media are more suitable for certain tasks. A richer media is preferred for high equivocal task while leaner media are suitable for tasks with low equivocality. 
+
+\subsection{Media synchronicity theory}
+
+Dennis and Valacich have criticized MRT for various reasons. First, empirical researches of media richness theory have not been convincing \cite{1998dennis} \cite{1997elshinnawy}. Second, empirical studies have shown that the media actually used for different communication tasks do not match with the media richness theory. Korkala et. al. achieved the same result as they noticed email was commonly used communication practise even though "richer" communication methods were encouraged \cite{2006korkala}. Third, Dennis and Valacich argue that in contrast to MRT, one cannot rank communication methods "rich" and "poor". \cite{1999dennis}
+
+Dennis and Valacich formed a list of five media characteristics that can affect communication. The characteristics are transmission velocity (also known as immediacy of feedback \cite{1999dennis}), parallelism, symbol sets, rehearsability and reprocessability. They evaluated various communication methods from face-to-face discussions to written documents based on the five characteristics. The result of the evaluation was that methods can not be ranked from "best" to "worst", or from "richest" to "poorest" \cite{2008dennis}. 
+
+Before applying the MRT and MST theories the nature of customer feedback communication has to be defined. In customer feedback communication, customer is the source of information. In most cases the amount of information available from the customer is sufficient for the team to conduct follow up actions. However, in some cases the customer may be unsatisfied but unable to provide necessary feedback for the team to come up with an appropriate solution. It can be stated that the level of information available varies. In terms of media richness theory this means that the level of uncertainty varies but in general it can be stated that the level of uncertainty is medium \cite{1986daft}. 
+
+The development team has to interpret the feedback from customer after receiving it. The feedback from the customer can be ambiguous even if the amount of information available is sufficient. When a developer interprets the feedback received from customer multiple questions may arise: Are we talking about the same part of the software? Why is this a problem in the first place? How it should be fixed? Because of the ambiguous nature of feedback and possibility of conflicting interpretations, in the context of media richness theory this means that feedback communication is affected by equivocality. However, since the customer and the team are having feedback communication around familiar and known subject (the software product) it can be argued that the level of equivocality is not the highest one, instead, medium.
+
+As stated already, feedback communication is held in a context which is familiar to the individuals working with each other. The individuals are most likely used to work with each other and they are familiar with the tasks they are working on and the media they are using for communication. According to media synchronicity theory, in a familiar communication context the emphasis on the communication should be on conveyance process. The theory states that conveyance processes are best served by media with capabilities supporting low synchronicity.
+
+\subsection{Feedback communication according to MRT}
+
+The media richness theory proposes that "richer" communication media are more suitable for tasks with high equivocality where as "leaner" media are more suitable for tasks with low equivocality but high uncertainty. \cite{1999dennis} In the case of feedback communication we fall in the middle.
+
+\begin{comment}
+\textbf{TODO: Onko palaute yksiselitteisesti equivocality? MST:n mukaan ollaan hieman toisilla jäljillä}
+
+\textbf{TODO: Lue MRT uudestaan ja koita ymmärtää onko just näin. Lue myös Korkalaa ja Bhaleraoa, jotka ovat käyttäneet ko. teoriaa}
+
+In iterative software development various communication phases occur in an iteration. According to Bhalerao these phases are primary, mid- and end-iteration phases. \cite{2010bhalerao}
+
+The primary phases consist of planning tasks. Before the feature implementation, the development team and the customer have to form a shared understanding of what will be implemented. As the consensus is formed it is agreed or documented as a specification for the implementation. In this phase high uncertainty and high equivocality exists. 
+
+In the mid-iteration phase the implementation of the agreed features for the iteration has started. Mid-iteration communication consist of corrective questions regarding the specification. Uncertainty is high while equivocality is low since the high-level consensus has been formed in the previous phase. As the development team starts delivering implemented features feedback communication takes place.
+
+The end-iteration communication consist of feedback communication. The primary task in this phase is to validate the implemtented features. The main method for validation is an iteration demo and customer feedback.
+
+The feedback the customer gives can be unambigious. When a developer interprets the feedback received from customer multiple questions may arise: Are we talking about the same part of the software? Why is this a problem in the first place? How it should be fixed?
+
+Since the feedback can be unambigous and difficult to interpret it can be argued that high equivocality involves in feedback communication. According to media richness theory rich communication methods should be used in feedback communication. Also Bhalerao suggegests the same by arguing that face-to-face communication is the preferred mode for feedback communication for instant feedback \cite{2010bhalerao}.
+
+\end{comment}
+
+\subsection{Feedback communication according to MST}
+
+As stated earlier, media with capabilities supporting low synchronicity best serves feedback communication. According to media synchronicity theory, the five media capabilities have different capabilities to support synchronicity. Evaluating these capabilities in the context of feedback it can be seen what kind of capabilities an effective feedback method has.
+
+Transmission velocity is the speed at which medium is capable of transmitting the message to recipient. From feedback point-of-view, transmission velocity is important but not as important as it is for e.g. planning tasks. For example, communication context for planning is novel where as feedback is given in a context where feedback sender and receiver are familiar with the subject. When the context is familiar conveyance should be emphasized. To support conveyance a communication method with lower synchronicity level should result in better communication performance. High transmission velocity supports synchronicity, thus in conclusion, for feedback purposes where conveyance process is emphasized, communication method with lower transmission velocity should be used according to Dennis et. al. \cite{2008dennis}
+
+Parallelism describes the medium's capability for multiple parallel communication sessions \cite{2008dennis}. Synchronous communication methods such as face-to-face communication and telephone support poorly parallelism where as asynchronous computer-aided methods such as chat rooms and emails support parallelism well. Parallelism has negative impact on media synchronicity. Thus, media with high parallelism should be used for feedback purposes. \cite{2008dennis}
+
+Symbol set describes the number of ways in which a medium allows information to be encoded for communication \cite{2008dennis}. For example face-to-face communication has a higher number of symbol sets than written document since face-to-face communication can transfer also vocal tones and physical gestures. Symbol sets can be natural (physical, visual, verbal) or less natural (written or typed). More natural symbol sets support higher synchronicity, however, using a medium with a symbol set better suited to the content of message will improve information transmission and processing \cite{2008dennis}. For feedback this means that a verbal description of a activity on a Web site can be less effective than a visual demonstration and a verbal description or a series of annotated screen shots with a written description \cite{2008dennis}.
+
+Rehearsability stands for the ability to fine tune the message before sending it. High rehearsability reduces possibilities to misunderstandings as the sender can carefully fine tune the message to describe exactly what she means to. However, rehearsability adds delays to the conversation. \cite{2008dennis} 
+
+From the viewpoint of feedback, rehearsability is important. An ill-advised comment from customer about an implemented feature may give a wrong impression to the developer who may end up doing a change that the customer did not actually intended from the first place. In addition, giving a negative feedback to the development team in an indiscreet way may reduce developers' motivation.
+
+Reprocessability describes the possibility to reprocess the transmitted message. The ability to reread the message increases the understanding of the content, but adds delays to the conversation. \cite{2008dennis}
+
+The understanding of the feedback given by the customer increases if the developer can reprocess the feedback. This is especially true if the message is communication via a medium which does not support symbol set suited to the content of the message. 
+
+In many occasions the received feedback requires for actions. The required action may not be executed immediately. If for example a developer makes a change based on the customer feedback after a couple of days of receiving the feedback, the reprocessability plays a great role.
+
+In conclusion, feedback is given in a context, which is familiar to the individuals working with each other, thus moving the emphasis from convergence process to conveyance process. According to MST conveyance processes are best served by media with capabilities supporting low synchronicity. Media with low synchronicity are for example documents, fax, voice mail, asynchronous electronic mail (email) and asynchronous electronic conferencing. \cite{2008dennis}
+
+\section{Discussion and conclusion}
+
+According to both media richness theory and media synchronicity theory, face-to-face communication is not the most efficient feedback communication method. Instead, "leaner" methods or methods with lower support for synchronicity should be used.
+
+The result is in contrast to some previous researches and what the agile manifesto proposes. One of the twelve principles of the agile manifesto states that "the most efficient and effective method of conveying information to and within a development team is face-to-face conversation." \cite{agilemanifesto} In addition, Bhalerao states that at the end of the iteration when customer feedback is given, active communication methods should be utilized. By active communication methods Bhalerao means face-to-face communication or telephone communication \cite{2010bhalerao}.
+
+However, despite the result being in contrast with some previous researches and the agile manifesto, it is not totally unexpected result. Even though face-to-face communication is effective for most communication tasks, it comes with a high price. The problems of face-to-face communication are well known one of the most significant being the need for shared time and physical location. This is clearly not always possible, for example for globally distributed projects.
+
+Korkala et al. noticed in their research that the customers of the projects selected email as the main communication channel despite the fact that they have been encouraged to use "richer" communication media \cite{2006korkala}. One reason for this could be that the customers subconsciously selected a communication media, which in fact had the best cost-value ratio.
+
+It has to be noticed that the result of this paper is a result of simplification. In the paper the customer feedback was considered as a day-to-day communication practice of a rather simple and straightforward well-known subject. This assumption was made because it can be assumed that the customer and development team are already familiar with the subject before the feedback is given since they have in the beginning of the iteration planned it together. However, in the real life situations can be more complicated. If the customer for example has not been able to participate to the planning of the feature the feedback is given from it may be the case that the customer is seeing the feature for the first time. In this kind of situation the communication context is a lot more complex.
+
+As proposed in the media synchronicity theory the best communication performance can be reached by combining different communication practices \cite{2008dennis}. For example, an email with a screenshot attached results a much better communication performance that the plain email. On the other hand the communication methods used today have not developed lately very much. We are still using the same communication channels as ten years ago, emails, chats, telephone, videoconferences etc. In addition, there are not many communication methods designed especially for feedback purposes. There is clearly need for new kind methods and practices for giving feedback.
+
+One interesting feedback tool implemented by Aalto University students sponsored by Futurice is Hannotaatio \cite{hannotaatio}, which is a visual website feedback tool allowing customer to give feedback by drawing on top of the website under development. However, further research would be needed to draw conclusions about the effectiveness of Hannotaatio.
+
+% Load the bibliographic references
+% ------------------------------------------------------------------
+% You can use several .bib files:
+% \bibliography{thesis_sources,ietf_sources}
+\bibliography{ref}
+
+
+% Appendices go here
+% ------------------------------------------------------------------
+% If you do not have appendices, comment out the following lines
+\appendix
+
+% \input{appendices.tex}
+
+\chapter{First appendix}
+\label{chapter:first-appendix}
+
+This is the first appendix. You could put some test images or verbose data in an
+appendix, if there is too much data to fit in the actual text nicely.
+
+For now, the Aalto logo variants are shown in Figure~\ref{fig:aaltologo}.
+
+\begin{figure}
+\begin{center}
+\subfigure[In English]{\includegraphics[width=.8\textwidth]{aalto-logo-en}}
+\subfigure[Suomeksi]{\includegraphics[width=.8\textwidth]{aalto-logo-fi}}
+\subfigure[På svenska]{\includegraphics[width=.8\textwidth]{aalto-logo-se}}
+\caption{Aalto logo variants}
+\label{fig:aaltologo}
+\end{center}
+\end{figure}
+
+
+% End of document!
+% ------------------------------------------------------------------
+% The LastPage package automatically places a label on the last page.
+% That works better than placing a label here manually, because the
+% label might not go to the actual last page, if LaTeX needs to place
+% floats (that is, figures, tables, and such) to the end of the 
+% document.
+\end{document}
