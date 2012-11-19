@@ -1,17 +1,19 @@
-if (typeof define !== 'function') {
-  var define;
-  if(typeof module !== 'undefined') {
-    define = function(ignoreModuleName, moduleDefinitionFn) {
-      require('amdefine')(module)(moduleDefinitionFn);
-    }
-  } else {
-    define = function(ignoreModuleName, moduleDefinitionFn) {
-      window.LatexParser = moduleDefinitionFn();
+(function() {
+  if (typeof define !== 'function') {
+    var define;
+    if(typeof module !== 'undefined') {
+      define = function(ignoreModuleName, moduleDefinitionFn) {
+        require('amdefine')(module)(moduleDefinitionFn);
+      }
+    } else {
+      define = function(ignoreModuleName, moduleDefinitionFn) {
+        window.LatexParser = moduleDefinitionFn();
+      }
     }
   }
-}
 
-define('latex-parser', function() {
+  define('latex-parser', function() {
     return <%= parser %>
-});
+  });
+})();
 
