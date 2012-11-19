@@ -1,4 +1,4 @@
-var parser = require("../lib/latex-parser");
+var parser = require("../lib/latex-parser.min");
 var fs = require("fs");
 var path = require("path");
 var colors = require('colors'); 
