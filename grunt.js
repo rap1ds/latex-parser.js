@@ -16,6 +16,9 @@ module.exports = function(grunt) {
       source: 'src/latex-parser.pegjs',
       destination: 'lib/latex-parser.js',
       template: 'tmpl/latex-parser.tmpl'
+    },
+    test: {
+      docs: 'tests/docs'
     }
   });
 
@@ -36,6 +39,11 @@ module.exports = function(grunt) {
   function write(destinationFile, parser) {
     grunt.file.write(destinationFile, parser);
   }
+
+  grunt.registerTask('test', 'Test parser', function() {
+    var ParserTest = require('./tests/test-runner');
+    ParserTest.run(grunt.config.get('test').docs);
+  });
 
   grunt.registerTask('build', 'Build parser', function() {
     console.log("Building parser");

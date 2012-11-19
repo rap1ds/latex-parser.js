@@ -1,7 +1,9 @@
-var parser = require("../latex-parser-node");
+var parser = require("../lib/latex-parser");
 var fs = require("fs");
 var path = require("path");
 var colors = require('colors'); 
+
+console.log(parser);
 
 function readDir(dir) {
   return fs.readdirSync(path.resolve(dir))
@@ -63,16 +65,20 @@ function printResult(verbose, file) {
   printer(file);
 }
 
-var parsed = readDir('docs')
-  .map(readFile)
-  .map(parse)
-  
-parsed.forEach(function(file) {
-  printResult(true, file);
-});
+module.exports = {
+  run: function(testDocPath) {
+    var parsed = readDir(testDocPath)
+      .map(readFile)
+      .map(parse)
 
-printSeparator();
+    parsed.forEach(function(file) {
+      printResult(true, file);
+    });
 
-parsed.forEach(function(file) {
-  printResult(false, file);
-});
+    printSeparator();
+
+    parsed.forEach(function(file) {
+      printResult(false, file);
+    });
+  }
+};
