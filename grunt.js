@@ -17,6 +17,12 @@ module.exports = function(grunt) {
       destination: 'lib/latex-parser.js',
       template: 'tmpl/latex-parser.tmpl'
     },
+    min: {
+      dist: {
+        src: ['lib/latex-parser.js'],
+        dest: 'lib/latex-parser.min.js'
+      }
+    },
     test: {
       docs: 'tests/docs'
     }
@@ -57,5 +63,5 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'build');
+  grunt.registerTask('default', 'build min');
 };
