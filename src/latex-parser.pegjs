@@ -45,7 +45,7 @@ TextCharacter
   / "\\" sequence:EscapedCharacter
 
 EscapedCharacter
-  = ("\{" / "\}" / "\%" / "\$")
+  = ("\{" / "\}" / "\%" / "\$" / "\@")
   
 SingleLineComment
   = "%" (!LineTerminator SourceCharacter)*
