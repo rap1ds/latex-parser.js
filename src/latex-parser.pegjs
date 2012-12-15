@@ -43,6 +43,8 @@ TextCharacter
   / "\\LaTeX\\"
   / "\\\\"
   / "\\" sequence:EscapedCharacter
+  / ForceHyphenation
+  / ForceSpace
 
 EscapedCharacter
   = ("\{" / "\}" / "\%" / "\$" / "\@")
@@ -55,6 +57,13 @@ LineTerminator
   
 Comment "comment"
   = SingleLineComment
+  
+ForceHyphenation
+  = "\\\-"
+  
+ForceSpace
+  = "\\ "
+  / "\\" LineTerminatorSequence
   
 Command
   = "\\" cname:CommandName "*"? args:CommandArgument* { 
@@ -83,8 +92,8 @@ SingleLineMathCharacter
   = !("\$") char_:SourceCharacter {return char_; }
 
 CommandArgument
-  = "\[" squareArg:SquareCharacters? "\]" { return "[" + squareArg + "]" }
-  / "\{" curlyArg:CurlyCharacters? "\}" { return "{" + curlyArg + "}" }
+  = __ "\[" squareArg:SquareCharacters? "\]" { return "[" + squareArg + "]" }
+  / __ "\{" curlyArg:CurlyCharacters? "\}" { return "{" + curlyArg + "}" }
   
 CurlyBlock
   = "\{" CurlyCharacters? "\}"

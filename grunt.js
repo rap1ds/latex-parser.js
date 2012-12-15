@@ -63,5 +63,5 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'build min');
+  grunt.registerTask('default', 'build min test');
 };
