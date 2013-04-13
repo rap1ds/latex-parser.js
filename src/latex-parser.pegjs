@@ -47,7 +47,7 @@ TextCharacter
   / ForceSpace
 
 EscapedCharacter
-  = ("\{" / "\}" / "\%" / "\$" / "\@" / "\&" / "\#")
+  = ("\{" / "\}" / "\%" / "\$" / "\@" / "\&" / "\#" / "\"")
   
 SingleLineComment
   = "%" (!LineTerminator SourceCharacter)*
